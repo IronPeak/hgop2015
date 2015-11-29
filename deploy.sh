@@ -20,6 +20,6 @@ vagrant halt &&
 vagrant up && 
 vagrant ssh -c "(docker login --username=ironpeak && 
 		docker pull ironpeak/tictactoe && 
-		docker run -p 9000:8080 -d -e NODE_ENV=production ironpeak/tictactoe)")
+		docker run -p 8000:8080 -d -e NODE_ENV=production ironpeak/tictactoe)")
 
 exit 0
