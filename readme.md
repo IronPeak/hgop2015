@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/IronPeak/hgop2015.svg)](https://travis-ci.org/IronPeak/hgop2015)
+
 HGOP Project Template (TicTacToe) 
 =========
 
