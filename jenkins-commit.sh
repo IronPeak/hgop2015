@@ -10,6 +10,10 @@ bower install
 
 ./dockerbuild.sh
 
+if [ $? == 0 ]; then
+  docker push ironpeak/tictactoe
+fi
+
 echo 'Finished jenkins shell script'
 
 exit 0
