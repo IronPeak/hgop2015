@@ -9,6 +9,11 @@ npm install
 bower install
 
 ./dockerbuild.sh
+buildexitcode=$?
+if [ $buildexitcode != 0 ]; then
+  echo "Dockerbuild exited with error code $buildexitcode"
+  exit $buildexitcode
+fi
 
 if [ $? == 0 ]; then
   docker push ironpeak/tictactoe
