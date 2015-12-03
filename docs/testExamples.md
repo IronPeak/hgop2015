@@ -1,11 +1,25 @@
 Test Examples
 =============
-#Create Game
+#Intoductions
+The test documentations are split into 5 rows:
+* Prerequisite: the state of the game when the test is run.
+* Given: Some argument value.
+* When: Some arguments are passed.
+* Then: Expected value.
+* Call: How the test is called.
+
+# create game command
 <TABLE>
   <TR>
     <TH colspan="2">
-      Test Name
+      should create game
     </TH>
+  </TR>
+  <TR>
+    <TD>Prerequisite</TD>
+    <TD>
+      None
+    </TD>
   </TR>
   <TR>
     <TD>Given</TD>
@@ -45,6 +59,10 @@ Test Examples
     <TD>
     <Table>
       <TR>
+        <TD>id</TD>
+        <TD>1234</TD>
+      </TR>
+      <TR>
         <TD>event</TD>
         <TD>GameCreated</TD>
       </TR>
@@ -69,8 +87,84 @@ Test Examples
   </TR>
 </TABLE>
 
+<TABLE>
+  <TR>
+    <TH colspan="2">
+      should create game with another user another time
+    </TH>
+  </TR>
+  <TR>
+    <TD>Prerequisite</TD>
+    <TD>
+      None
+    </TD>
+  </TR>
+  <TR>
+    <TD>Given</TD>
+    <TD>
+      []
+    </TD>
+  </TR>
+  <TR>
+    <TD>When</TD>
+    <TD>
+    <Table>
+      <TR>
+        <TD>id</TD>
+        <TD>12347</TD>
+      </TR>
+      <TR>
+        <TD>comm</TD>
+        <TD>CreateGame</TD>
+      </TR>
+      <TR>
+        <TD>userName</TD>
+        <TD>Halli</TD>
+      </TR>
+      <TR>
+        <TD>name</TD>
+        <TD>TheFirstGame</TD>
+      </TR>
+      <TR>
+        <TD>timeStamp</TD>
+        <TD>2015.12.02T10:29:44</TD>
+      </TR>
+    </Table>
+    </TD>
+  </TR>
+  <TR>
+    <TD>Then</TD>
+    <TD>
+    <Table>
+      <TR>
+        <TD>id</TD>
+        <TD>12347</TD>
+      </TR>
+      <TR>
+        <TD>event</TD>
+        <TD>GameCreated</TD>
+      </TR>
+      <TR>
+        <TD>userName</TD>
+        <TD>Halli</TD>
+      </TR>
+      <TR>
+        <TD>timeStamp</TD>
+        <TD>2015.12.02T10:29:44</TD>
+      </TR>
+    </Table>
+    </TD>
+  </TR>
+  <TR>
+    <TD>
+      Call
+    </TD>
+    <TD>
+      tictactoeCommandHandler(given).executeCommand(when);
+    </TD>
+  </TR>
+</TABLE>
 
+# Join Game
 
-#Join Game
-
-#Make Move
+# Make Move
