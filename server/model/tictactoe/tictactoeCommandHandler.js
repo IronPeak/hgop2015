@@ -6,14 +6,16 @@ module.exports = function tictactoeCommandHandler(events) {
   };
 
   var eventHandlers={
-    'MoveMade': function(event){
+    "MoveMade": function(event){
       gameState.board[event.x][event.y] = event.side;
     }
   };
 
   _.each(events, function(event){
     var eventHandler = eventHandlers[event.event];
-    //eventHandler && eventHandler(event);
+    if (eventHandler) {
+	eventHandler(event);
+    }
   });
 
 
