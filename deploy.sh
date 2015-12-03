@@ -2,9 +2,6 @@
 
 echo -e '\nStarting deployment'
 
-echo -e '\nPushing to docker'
-docker push ironpeak/tictactoe
-
 echo -e '\nConnecting to test-production-environment'
 ssh vagrant@192.168.50.4 '(echo -e "\nPulling image from docker"
                           docker pull ironpeak/tictactoe
