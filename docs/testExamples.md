@@ -265,4 +265,82 @@ The test documentations are split into 5 rows:
   </TR>
 </TABLE>
 
+<TABLE>
+  <TR>
+    <TH colspan="2">
+      should join game
+    </TH>
+  </TR>
+  <TR>
+    <TD>Prerequisite</TD>
+    <TD>
+      None
+    </TD>
+  </TR>
+  <TR>
+    <TD>Given</TD>
+    <TD>
+      []
+    </TD>
+  </TR>
+  <TR>
+    <TD>When</TD>
+    <TD>
+    <Table>
+      <TR>
+        <TD>id</TD>
+        <TD>12345</TD>
+      </TR>
+      <TR>
+        <TD>comm</TD>
+        <TD>JoinGame</TD>
+      </TR>
+      <TR>
+        <TD>userName</TD>
+        <TD>Halli</TD>
+      </TR>
+      <TR>
+        <TD>name</TD>
+        <TD>TheFirstGame</TD>
+      </TR>
+      <TR>
+        <TD>timeStamp</TD>
+        <TD>2015.12.02T11:30:55</TD>
+      </TR>
+    </Table>
+    </TD>
+  </TR>
+  <TR>
+    <TD>Then</TD>
+    <TD>
+    <Table>
+      <TR>
+        <TD>id</TD>
+        <TD>12345</TD>
+      </TR>
+      <TR>
+        <TD>event</TD>
+        <TD>GameDoesNotExist</TD>
+      </TR>
+      <TR>
+        <TD>userName</TD>
+        <TD>Halli</TD>
+      </TR>
+      <TR>
+        <TD>timeStamp</TD>
+        <TD>2015.12.02T11:30:55</TD>
+      </TR>
+    </Table>
+    </TD>
+  </TR>
+  <TR>
+    <TD>
+      Call
+    </TD>
+    <TD>
+      tictactoeCommandHandler(given).executeCommand(when);
+    </TD>
+  </TR>
+</TABLE>
+
 # Make Move
