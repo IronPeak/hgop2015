@@ -32,7 +32,7 @@ describe('tictactoe game context', function() {
 
     var tictactoe = function(history){
         return {
-          executeCommand : function(cmd){
+          execute : function(cmd){
             executedCommand = cmd;
             return [];
           }
@@ -43,13 +43,13 @@ describe('tictactoe game context', function() {
     var boundedContext = require('./tictactoeBoundedContext')(eventStoreStub, commandHandlers);
 
     var emptyCommand = {
-      gameId: "123"
+      gid: "123"
     };
 
     var events;
     boundedContext.handleCommand(emptyCommand).then(function(ev){
       events = ev;
-      should(executedCommand.gameId).be.exactly("123");
+      should(executedCommand.gid).be.exactly("123");
       should(calledWithEventStoreId).be.exactly("123");
       should(events.length).be.exactly(0);
       should(storedEvents).be.exactly(events);
@@ -77,7 +77,7 @@ describe('tictactoe game context', function() {
 
 
     var mockTickTackToe = spy({
-      executeCommand : function(){
+      execute : function(){
         return resolvedPromise([]);
 
       }
@@ -90,7 +90,7 @@ describe('tictactoe game context', function() {
     var boundedContext = require('./tictactoeBoundedContext')(mockStore, commandHandlers);
 
     var emptyCommand = {
-      gameId: "123"
+      gid: "123"
     };
 
     boundedContext.handleCommand(emptyCommand).then(function(){
@@ -98,7 +98,7 @@ describe('tictactoe game context', function() {
       jm.verify(mockStore).loadEvents('123');
       jm.verify(mockStore).storeEvents('123');
 
-      jm.verify(mockTickTackToe).executeCommand(emptyCommand);
+      jm.verify(mockTickTackToe).execute(emptyCommand);
 
       done();
     });
@@ -108,4 +108,3 @@ describe('tictactoe game context', function() {
 
 
 });
-

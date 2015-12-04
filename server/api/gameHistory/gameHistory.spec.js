@@ -8,12 +8,11 @@ describe('GET /api/gameHistory', function () {
 
   it('should respond with JSON array with created events for game', function (done) {
     var command =     {
+      command: "CreateGame",
       id : "1234",
-      gameId : "999",
-      comm: "CreateGame",
-      userName: "Gulli",
+      gid : "999",
       name: "TheFirstGame",
-      timeStamp: "2014-12-02T11:29:29"
+      playerX: "Gulli"
     };
 
     var req = request(app);
@@ -33,11 +32,10 @@ describe('GET /api/gameHistory', function () {
             should(res.body).eql(
               [{
                 "id": "1234",
-                "gameId": "999",
+                "gid": "999",
+		"name": "TheFirstGame",
                 "event": "GameCreated",
-                "userName": "Gulli",
-                "name": "TheFirstGame",
-                "timeStamp": "2014-12-02T11:29:29"
+                "playerX": "Gulli"
               }]);
             done();
           });

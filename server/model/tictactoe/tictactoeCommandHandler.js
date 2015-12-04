@@ -1,89 +1,60 @@
 var _ = require('lodash');
 module.exports = function tictactoeCommandHandler(events) {
-  var gameState = {
-    gameCreatedEvent : events[0],
-    board: [['','',''],['','',''],['','','']]
-  };
+    var gameState = {
+	move: 0,
+        board: [['','',''],['','',''],['','','']]
+    };
 
-  var eventHandlers={
-    "MoveMade": function(event){
-      gameState.board[event.x][event.y] = event.side;
-    }
-  };
+    var setGameState = {
+	"MoveMade": function(event) {
+	    gameState.board[event.x][event.y] = event.side;
+	    gameState.move++;
+	}
+    };
+	
+    _.each(events, function(event) {
+	var e = setGameState[event.event];
+	if(e !== undefined) {
+	    setGameState(e);
+	}
+    });
 
-  _.each(events, function(event){
-    var eventHandler = eventHandlers[event.event];
-    if (eventHandler) {
-	eventHandler(event);
-    }
-  });
+    var commands = {
+	"CreateGame": function(cmd) {
+	    {
+		if(cmd.id === undefined) {
+		    throw new Error("CreateGame: game id is undefined");		
+		}
+		if(cmd.gid === undefined) {
+		    throw new Error("CreateGame: game gid is undefined");		
+		}
+		if(cmd.name === undefined) {
+		    throw new Error("CreateGame: game name is undefined");		
+		}
+		if(cmd.playerX === undefined) {
+		    throw new Error("CreateGame: player name is undefined"); 		
+		}
+		if(gameState.move !== 0) {
+		    throw new Error("CreateGame: game is already in progress");
+		}
+		return [{
+		    id: cmd.id,
+		    gid: cmd.gid,
+		    name: cmd.name,
+                    event: "GameCreated",
+		    playerX: cmd.playerX
+		}];
+	    }
+	}
+    };
 
-  var handlers = {
-    "CreateGame": function (cmd) {
-      {
-        return [{
-          id: cmd.id,
-          gameId: cmd.gameId,
-          event: "GameCreated",
-          userName: cmd.userName,
-          timeStamp: cmd.timeStamp,
-          name: cmd.name
-
-        }];
-      }
-    },
-    "JoinGame": function (cmd) {
-      {
-        if (gameState.gameCreatedEvent === undefined) {
-          return [{
-            id: cmd.id,
-            event: "GameDoesNotExist",
-            userName: cmd.userName,
-            timeStamp: cmd.timeStamp
-          }];
-        }
-        return [{
-          id: cmd.id,
-          event: "GameJoined",
-          userName: cmd.userName,
-          otherUserName: gameState.gameCreatedEvent.userName,
-          timeStamp: cmd.timeStamp
-        }];
-      }
-    },
-    "MakeMove": function(cmd){
-      if(gameState.board[cmd.x][cmd.y]!==''){
-        return [{
-          id: cmd.id,
-          event: "IllegalMove",
-          userName: cmd.userName,
-          name:gameState.gameCreatedEvent.name,
-          x:cmd.x,
-          y:cmd.y,
-          side:cmd.side,
-          timeStamp: cmd.timeStamp
-        }]
-      }
-      return [{
-        id: cmd.id,
-        event: "MoveMade",
-        userName: cmd.userName,
-        name:gameState.gameCreatedEvent.name,
-        x:cmd.x,
-        y:cmd.y,
-        side:cmd.side,
-        timeStamp: cmd.timeStamp
-      }]
-    }
-  };
-
-  return {
-    executeCommand: function (cmd) {
-      var handler = handlers[cmd.comm];
-      if(!handler){
-        throw new Error("No handler resolved for command " + JSON.stringify(cmd));
-      }
-      return handler(cmd);
-    }
-  };
+    return {
+        execute: function(cmd) {
+	    var command = commands[cmd.command];
+            if(command === undefined) {
+		throw new Error("Not a valid command option " + cmd.command + ", complete argument: " + JSON.stringify(cmd));
+	    }
+	    return command(cmd);
+	}
+    };
 };
