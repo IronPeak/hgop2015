@@ -7,7 +7,7 @@ echo Building app
 grunt
 gruntexitcode=$?
 if [ $gruntexitcode != 0 ]; then
-    echo "grunt exited with error code $gruntexitcode , cancelling build"
+    echo "grunt exited with error code $gruntexitcode"
     exit $gruntexitcode
 fi
 
@@ -17,7 +17,7 @@ cd dist
 npm install --production
 npmexitcode=$?
 if [ $npmexitcode != 0 ]; then
-    echo "npm exited with error code $npmexitcode , cancelling build"
+    echo "npm install exited with error code $npmexitcode"
     exit $npmexitcode
 fi
 
