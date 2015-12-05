@@ -19,7 +19,7 @@ describe('JoinGame command:', function(){
         then=[{
             gid: "1235",
             name:"TheFirstGame",
-            event:"JoinedGame",
+            event:"GameJoined",
             playerX: "Gulli",
 	    playerO: "Halli"
         }];

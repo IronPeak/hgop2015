@@ -74,7 +74,7 @@ module.exports = function tictactoeCommandHandler(events) {
 		return [{
 		    gid: cmd.gid,
 		    name: cmd.name,
-		    event: "JoinedGame",
+		    event: "GameJoined",
 		    playerX: gameState.playerX,
 		    playerO: cmd.playerO
 		}];
