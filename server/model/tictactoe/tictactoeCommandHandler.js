@@ -65,6 +65,9 @@ module.exports = function tictactoeCommandHandler(events) {
 		if(cmd.name !== gameState.name) {
 		    throw new Error("JoinGame: game name does not match");		
 		}
+		if(gameState.playerO !== undefined) {
+		    throw new Error("JoinGame: the game is already full");		
+		}
 		if(cmd.playerO === undefined) {
 		    throw new Error("JoinGame: playerO name is undefined"); 		
 		}

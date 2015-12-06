@@ -115,4 +115,33 @@ describe('JoinGame command:', function(){
 	   	
 	}
     });
+
+    it('Fail if game us full',function(){
+        given=[{
+            gid: "123",
+            name:"Game",
+	    event: "GameCreated",
+            playerX: "NAME1"
+        },
+	{
+	    gid: "123",
+	    name: "Game",
+	    event: "GameJoined",
+	    playerO: "NAME2"
+	}];
+        when={
+            command:"JoinGame",
+            gid: "123",
+            name:"Game",
+            playerO: "NAME3"
+        };
+        then=[];
+
+        try {
+	    tictactoeCommandHandler(given).execute(when);
+	    false.should.be(true);
+	} catch(e) {
+	   	
+	}
+    });
 });
