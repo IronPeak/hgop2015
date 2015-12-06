@@ -82,6 +82,71 @@ module.exports = function tictactoeCommandHandler(events) {
 		    playerO: cmd.playerO
 		}];
 	    }	
+	},
+	"MakeMoveX": function(cmd) {
+	    {
+		if(cmd.gid !== gameState.gid) {
+		    throw new Error("MakeMoveX: gids did not match");		
+		}
+		if(cmd.name !== gameState.name) {
+		    throw new Error("MakeMoveX: names did not match");		
+		}
+		if(cmd.playerX !== gameState.playerX) {
+		    throw new Error("MakeMoveX: playerX does not match");		
+		}
+		if(gameState.playerO === undefined) {
+		    throw new Error("MakeMoveX: playerO missing");		
+		}
+		if(gameState.move % 2 !== 0) {
+		    throw new Error("MakeMoveX: it is not your turn");		
+		}
+		if(cmd.x < 0 || 2 < cmd.x || cmd.y < 0 || 2 < cmd.y) {
+		    throw new Error("MakeMoveX: not a valid board position");
+		}
+		if(gameState.board[cmd.x][cmd.y] !== '') {
+		    throw new Error("MakeMoveX: board position already taken");
+		}
+		return [{
+		    gid: cmd.gid,
+		    name: cmd.name,
+		    x: cmd.x,
+		    y: cmd.y,
+		    side: 'X',
+                    event: "MoveMade",
+		    playerX: cmd.playerX
+		}];
+	    }
+	},
+	"MakeMoveO": function(cmd) {
+	    {
+		if(cmd.gid !== gameState.gid) {
+		    throw new Error("MakeMoveO: gids did not match");		
+		}
+		if(cmd.name !== gameState.name) {
+		    throw new Error("MakeMoveO: names did not match");		
+		}
+		if(cmd.playerO !== gameState.playerO) {
+		    throw new Error("MakeMoveO: playerO does not match");		
+		}
+		if(gameState.move % 2 !== 1) {
+		    throw new Error("MakeMoveO: it is not your turn");		
+		}
+		if(cmd.x < 0 || 2 < cmd.x || cmd.y < 0 || 2 < cmd.y) {
+		    throw new Error("MakeMoveO: not a valid board position");
+		}
+		if(gameState.board[cmd.x][cmd.y] !== '') {
+		    throw new Error("MakeMoveO: board position already taken");
+		}
+		return [{
+		    gid: cmd.gid,
+		    name: cmd.name,
+		    x: cmd.x,
+		    y: cmd.y,
+		    side: 'O',
+                    event: "MoveMade",
+		    playerO: cmd.playerO
+		}];
+	    }
 	}
     };
 
