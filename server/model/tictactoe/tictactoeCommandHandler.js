@@ -7,7 +7,9 @@ module.exports = function tictactoeCommandHandler(events) {
 	eventcount: events.length,
 	playerX: undefined,
 	playerO: undefined,
-        board: [['','',''],['','',''],['','','']]
+        board: [['','',''],['','',''],['','','']],
+	gameover: false,
+	winner: undefined
     };
 
     var setGameState = {
@@ -22,6 +24,12 @@ module.exports = function tictactoeCommandHandler(events) {
 	"MoveMade": function(event) {
 	    gameState.board[event.x][event.y] = event.side;
 	    gameState.move++;
+	},
+	"GameOver": function(event) {
+	    gameState.gameover = true;
+	    gameState.winner = event.winner;
+	    gameState.board[event.x][event.y] = event.side;
+	    gameState.move++;
 	}
     };
 	
@@ -30,6 +38,54 @@ module.exports = function tictactoeCommandHandler(events) {
 	    setGameState[event.event](event);
 	}
     });
+
+    function isWinner(side) {
+	if(gameState.move < 5) {
+	    return false;	
+	}
+	var x, y, i;
+	for(x = 0; x < 3; x++) {
+            for(y = 0; y < 3; y++) {
+		if(gameState.board[x][y] !== side) {
+		    break;
+		}
+		if(y === 2) {
+		    return true;
+		}
+	    }
+	}
+	for(y = 0; y < 3; y++) {
+            for(x = 0; x < 3; x++) {
+		if(gameState.board[x][y] !== side) {
+		    break;
+		}
+		if(y === 2) {
+		    return true;
+		}
+	    }
+	}
+	for(i = 0; i < 3; i++) {
+	    if(gameState.board[i][i] !== side) {
+		break;
+	    }
+	    if(i === 2) {
+		return true;
+	    }
+	}
+	for(i = 0; i < 3; i++) {
+	    if(gameState.board[2-i][i] !== side) {
+		break;
+	    }
+	    if(i === 2) {
+		return true;
+	    }
+	}
+	return false;
+    }
+
+    function isGameOver() {
+	return (gameState.move > 8 || gameState.winnder !== undefined);
+    }
 
     var commands = {
 	"CreateGame": function(cmd) {
@@ -106,6 +162,32 @@ module.exports = function tictactoeCommandHandler(events) {
 		if(gameState.board[cmd.x][cmd.y] !== '') {
 		    throw new Error("MakeMoveX: board position already taken");
 		}
+		gameState.board[cmd.x][cmd.y] = 'X';
+		gameState.move++;
+		if(isWinner('X')) {
+		    return [{
+		        gid: cmd.gid,
+		        name: cmd.name,
+		        x: cmd.x,
+		        y: cmd.y,
+		        side: 'X',
+                        event: "GameOver",
+		        playerX: cmd.playerX,
+			winner: cmd.playerX
+		    }];
+		}
+		if(isGameOver()) {
+		    return [{
+		        gid: cmd.gid,
+		        name: cmd.name,
+		        x: cmd.x,
+		        y: cmd.y,
+		        side: 'X',
+                        event: "GameOver",
+		        playerX: cmd.playerX,
+			winner: undefined
+		    }];
+		}
 		return [{
 		    gid: cmd.gid,
 		    name: cmd.name,
@@ -136,6 +218,20 @@ module.exports = function tictactoeCommandHandler(events) {
 		}
 		if(gameState.board[cmd.x][cmd.y] !== '') {
 		    throw new Error("MakeMoveO: board position already taken");
+		}
+		gameState.board[cmd.x][cmd.y] = 'O';
+		gameState.move++;
+		if(isWinner('O')) {
+		    return [{
+		        gid: cmd.gid,
+		        name: cmd.name,
+		        x: cmd.x,
+		        y: cmd.y,
+		        side: 'O',
+                        event: "GameOver",
+		        playerO: cmd.playerO,
+			winner: cmd.playerO
+		    }];
 		}
 		return [{
 		    gid: cmd.gid,
