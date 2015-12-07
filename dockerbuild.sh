@@ -11,6 +11,12 @@ if [ $gruntexitcode != 0 ]; then
     exit $gruntexitcode
 fi
 
+rc=$?
+if [[ $rc != 0 ]] ; then
+    echo "Grunt build failed with exit code " $rc
+    exit $rc
+fi
+
 cp ./Dockerfile ./dist/
 
 cd dist
@@ -35,6 +41,12 @@ pushexitcode=$?
 if [ $pushexitcode != 0 ]; then
     echo "docker push exited with error code $pushexitcode"
     exit $pushexitcode
+fi
+
+rc=$?
+if [[ $rc != 0 ]] ; then
+    echo "Docker build failed " $rc
+    exit $rc
 fi
 
 echo "Done"
