@@ -10,14 +10,14 @@ describe('JoinGame acceptance test:', function () {
     it('should join a game', function (done) {
 
         var command = [{
-            command: "JoinGame",
-            gid: "1",
-            name: "Game3",
+            command: "CreateGame",
+            gid: "1337",
+            name: "Game1337",
             playerX: "IronPeak"
         },{
             command: "JoinGame",
-            gid: "1",
-            name: "Game3",
+            gid: "1337",
+            name: "Game1337",
             playerO: "IronBeak"
         }];
 
@@ -29,7 +29,7 @@ describe('JoinGame acceptance test:', function () {
             .end(function(err, res) {
                 if (err) return done(err);
                 request(acceptanceUrl)
-                .get('/api/gameHistory/1')
+                .get('/api/gameHistory/1337')
                 .expect(200)
                 .expect('Content-Type', /json/)
                 .end(function (err, res) {
@@ -37,8 +37,8 @@ describe('JoinGame acceptance test:', function () {
                     res.body.should.be.instanceof(Array);
                     should(res.body).eql(
                     [{
-                        "gid": "1",
-		        "name": "Game3",
+                        "gid": "1337",
+		        "name": "Game1337",
                         "event": "GameCreated",
                         "playerX": "IronPeak"
                     }]);
@@ -46,7 +46,6 @@ describe('JoinGame acceptance test:', function () {
             });
         });
 
-        var req = request(acceptanceUrl);
         req
             .post('/api/joinGame')
             .type('json')
@@ -54,7 +53,7 @@ describe('JoinGame acceptance test:', function () {
             .end(function(err, res) {
                 if (err) return done(err);
                 request(acceptanceUrl)
-                .get('/api/gameHistory/1')
+                .get('/api/gameHistory/1337')
                 .expect(200)
                 .expect('Content-Type', /json/)
                 .end(function (err, res) {
@@ -62,8 +61,13 @@ describe('JoinGame acceptance test:', function () {
                     res.body.should.be.instanceof(Array);
                     should(res.body).eql(
                     [{
-                        "gid": "123",
-		        "name": "Game3",
+                        "gid": "1337",
+		        "name": "Game1337",
+                        "event": "GameCreated",
+                        "playerX": "IronPeak"
+                    },{
+                        "gid": "1337",
+		        "name": "Game1337",
                         "event": "GameJoined",
 			"PlayerX": "IronPeak",
                         "playerO": "IronBeak"
