@@ -14,10 +14,10 @@ describe('TEST ENV GET /api/gameHistory', function () {
   it('should execute same test using old style', function (done) {
 
     var command = {
-      gid : "999",
-      command: "CreateGame",
-      playerX: "Gulli",
-      name: "TheFirstGame",
+      command:"CreateGame",
+      gid:"999",
+      name:"TheFirstGame",
+      playerX: "Gulli"
     };
 
     var req = request(acceptanceUrl);
@@ -25,7 +25,7 @@ describe('TEST ENV GET /api/gameHistory', function () {
       .post('/api/createGame')
       .type('json')
       .send(command)
-      .end(function (err, res) {
+      .end(function(err, res) {
         if (err) return done(err);
         request(acceptanceUrl)
           .get('/api/gameHistory/999')
@@ -37,9 +37,9 @@ describe('TEST ENV GET /api/gameHistory', function () {
             should(res.body).eql(
               [{
                 "gid": "999",
+		"name": "TheFirstGame",
                 "event": "GameCreated",
-                "playerX": "Gulli",
-                "name": "TheFirstGame"
+                "playerX": "Gulli"
               }]);
             done();
           });

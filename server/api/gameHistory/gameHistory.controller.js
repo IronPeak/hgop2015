@@ -8,7 +8,7 @@ var app = require('../../app');
 module.exports = function (eventStore) {
   return {
     index: function (req, res) {
-      eventStore.loadEvents(req.params.gameId).then(function (events) {
+      eventStore.loadEvents(req.params.gid).then(function (events) {
         res.json(events);
       }, function (err) {
         res.json(err);

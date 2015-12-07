@@ -8,7 +8,7 @@ var router = express.Router();
 module.exports = function(eventStore){
   var controller = require('./gameHistory.controller')(eventStore);
 
-  router.get('/:gameId', controller.index);
+  router.get('/:gid', controller.index);
 
   return {
     router: router

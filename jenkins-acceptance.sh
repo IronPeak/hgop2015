@@ -2,7 +2,7 @@
 
 export PATH=/usr/local/bin:$PATH;
 export DISPLAY=:0
-export ACCEPTANCE_URL=localhost:8080
+export ACCEPTANCE_URL=192.168.50.4:8080
 
 ./deploy.sh
 deployexitcode=$?
