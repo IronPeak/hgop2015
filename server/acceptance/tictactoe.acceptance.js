@@ -2,7 +2,8 @@
 
 var should = require('should');
 var request = require('supertest');
-var given = require('./fluid.acceptance');
+var user = require('./user.acceptance');
+var given = require('./given.acceptance');
 var acceptanceUrl = process.env.ACCEPTANCE_URL;
 
 describe('TEST ENV GET /api/gameHistory', function () {
@@ -47,18 +48,6 @@ describe('TEST ENV GET /api/gameHistory', function () {
   });
 
     it('Should execute fluid API test', function (done) {
-        var command = {
-            command:"CreateGame",
-            gid:"777",
-            name:"TheFirstGame",
-            playerX: "Gulli"
-        };
-	var expected = {
-            "gid": "777",
-	    "name": "TheFirstGame",
-            "event": "GameCreated",
-            "playerX": "Gulli"
-        };
-        given(command).sendTo("/api/createGame").expect(expected).when(done);
+        given(user("HrafnOrri").createGame("brabra").named("DasGame")).expect("GameCreated").isOk(done);
     });
 });
