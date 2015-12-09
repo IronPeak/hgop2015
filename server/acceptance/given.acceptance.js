@@ -34,6 +34,16 @@ module.exports = function given(user) {
 		dest: "/api/createGame",
 		cmd: user.cmd
 	    });
+	},
+        "JoinGame": function(user) {
+            properties.playerO = user.cmd.playerO;
+	    if(user.cmd.name === undefined) {
+            	user.cmd.name = properties.name
+	    }
+            cmdwrap.push({
+		dest: "/api/joinGame",
+		cmd: user.cmd
+            });
 	}
     };
 
@@ -45,11 +55,11 @@ module.exports = function given(user) {
 
     var api = {
         and: function(user) {
-	    var comm = this.gameApi[user.cmd.command];
+	    var comm = gameApi[user.cmd.command];
     	    if(comm === undefined) {
-		throw new Error("command: " + user.cmd.command + " is undefined" + ", complete argument: " + JSON.stringify(user));
+		throw new Error("Not a valid command option " + cmd.command + ", complete argument: " + JSON.stringify(user.cmd.command));
     	    }
-	    comm(user);
+    	    comm(user);
 	    return api;
 	},
 	expect: function(event) {
