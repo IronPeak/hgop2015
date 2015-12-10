@@ -88,13 +88,13 @@ function given(user) {
 	    should(result.x).eql(expectations.x);
 	    should(result.y).eql(expectations.y);
 	}
-    };
+    }
 
     var api = {
         and: function(user) {
 	    var comm = gameApi[user.cmd.command];
     	    if(comm === undefined) {
-		throw new Error("Not a valid command option " + cmd.command + ", complete argument: " + JSON.stringify(user.cmd.command));
+		throw new Error("Not a valid command option " + user.cmd.command + ", complete argument: " + JSON.stringify(user.cmd.command));
     	    }
     	    comm(user);
 	    return api;
@@ -145,12 +145,12 @@ function given(user) {
 
     var comm = gameApi[user.cmd.command];
     if(comm === undefined) {
-	throw new Error("Not a valid command option " + cmd.command + ", complete argument: " + JSON.stringify(user.cmd.command));
+	throw new Error("Not a valid command option " + user.cmd.command + ", complete argument: " + JSON.stringify(user.cmd.command));
     }
     comm(user);
     return api;
 
-};
+}
 
 function user(username) {
     var api = {
@@ -184,7 +184,7 @@ function user(username) {
 	}
     };
     return api;
-};
+}
 
 module.exports.user = user;
 module.exports.given = given;
