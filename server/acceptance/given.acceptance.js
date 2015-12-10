@@ -15,6 +15,7 @@ module.exports = function given(user) {
     };
 
     var expectations = {
+	expectingevent: false,
 	event: undefined
     };
 
@@ -63,7 +64,7 @@ module.exports = function given(user) {
     };
 
     function matchExpectations(result) {
-        if(expectations !== undefined) {
+        if(expectations.expectingevent === true) {
 	    should(expectations.event).eql(result.event);
 	}
     };
@@ -78,6 +79,7 @@ module.exports = function given(user) {
 	    return api;
 	},
 	expect: function(event) {
+	    expectations.expectingevent = true;
 	    expectations.event = event;
             return api;
 	},
