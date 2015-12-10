@@ -19,7 +19,14 @@ module.exports = function given(user) {
 	event: undefined,
 
 	expectinguser: false,
-	user: undefined
+	user: undefined,
+	
+	expectingwinner: false,
+	winner: undefined,
+
+	expectingpos: false,
+	x: undefined,
+	y: undefined
     };
 
     var cmdwrap = [];
@@ -74,6 +81,13 @@ module.exports = function given(user) {
 	if(expectations.expectinguser === true) {
 	    should(result.user).eql(expectations.user);
 	}
+	if(expectations.expectingwinner === true) {
+	    should(result.winner).eql(expectations.winner);
+	}
+	if(expectations.expectingpos === true) {
+	    should(result.x).eql(expectations.x);
+	    should(result.y).eql(expectations.y);
+	}
     };
 
     var api = {
@@ -93,6 +107,17 @@ module.exports = function given(user) {
 	byUser: function(username) {
 	    expectations.expectinguser = true;
 	    expectations.user = username;
+	    return api;
+	},
+	withWinner(username) {
+	    expectations.expectingwinner = true;
+	    expectations.winner = username;
+	    return api;	
+	},
+	atPosition(x, y) {
+	    expectations.expectingpos = true;
+	    expectations.x = x;
+	    expectations.y = y;
 	    return api;
 	},
 	isOk: function(done) {
