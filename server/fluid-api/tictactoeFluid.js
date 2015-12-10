@@ -5,7 +5,7 @@ var should = require('should');
 var request = require('supertest');
 var acceptanceUrl = process.env.ACCEPTANCE_URL;
 
-module.exports = function given(user) {
+function given(user) {
 
     var properties = {
         gid: undefined,
@@ -151,3 +151,40 @@ module.exports = function given(user) {
     return api;
 
 };
+
+function user(username) {
+    var api = {
+	cmd: {},
+	name: username,
+        createGame: function(gid) {
+            this.cmd.gid = gid;
+	    this.cmd.name = undefined;
+	    this.cmd.command = "CreateGame";
+	    this.cmd.user = username;
+            return api;
+	},
+	joinGame: function(gid) {
+	    this.cmd.gid = gid;
+	    this.cmd.name = undefined;
+	    this.cmd.command = "JoinGame";
+	    this.cmd.user = username;
+	    return api;
+	},
+	named: function(name) {
+	    this.cmd.name = name;
+	    return api;
+	},
+	makeMove: function(x, y) {
+	    this.cmd.gid = undefined;
+	    this.cmd.name = undefined;
+	    this.cmd.command = "MakeMove";
+	    this.cmd.x = x;
+	    this.cmd.y = y;
+	    return api;
+	}
+    };
+    return api;
+};
+
+module.exports.user = user;
+module.exports.given = given;

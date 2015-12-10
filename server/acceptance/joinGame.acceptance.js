@@ -1,7 +1,7 @@
 'use strict';
 
-var user = require('./user.acceptance');
-var given = require('./given.acceptance');
+var user = require('../fluid-api/tictactoeFluid').user;
+var given = require('../fluid-api/tictactoeFluid').given;
 
 describe('JoinGame acceptance test:', function () {
 

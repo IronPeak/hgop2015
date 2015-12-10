@@ -2,13 +2,14 @@
 
 var should = require('should');
 var request = require('supertest');
-var user = require('./user.acceptance');
-var given = require('./given.acceptance');
 var acceptanceUrl = process.env.ACCEPTANCE_URL;
+var user = require('../fluid-api/tictactoeFluid').user;
+var given = require('../fluid-api/tictactoeFluid').given;
 
 describe('TEST ENV GET /api/gameHistory', function () {
 
   it('Should have ACCEPTANCE_URL environment variable exported.', function () {
+    /*jshint -W030 */
     acceptanceUrl.should.be.ok;
   });
 
