@@ -9,13 +9,13 @@ describe('CreateGame command:', function(){
             command:"CreateGame",
             gid:"1235",
             name:"TheFirstGame",
-            playerX: "Gulli"
+            user: "TestPlayer"
         };
         then=[{
             gid:"1235",
             name:"TheFirstGame",
             event:"GameCreated",
-            playerX: "Gulli"
+            user: "TestPlayer"
         }];
 
         var actualEvents = tictactoeCommandHandler(given).execute(when);
@@ -28,7 +28,7 @@ describe('CreateGame command:', function(){
         when={
             command:"CreateGame",
             name:"TheFirstGame",
-            playerX : "Gulli"
+            user : "TestPlayer"
         };
         then=[];
 
@@ -45,7 +45,7 @@ describe('CreateGame command:', function(){
         when={
             command:"CreateGame",
 	    gid:"1235",
-            playerX : "Gulli"
+            user : "TestPlayer"
         };
         then=[];
 
@@ -63,7 +63,7 @@ describe('CreateGame command:', function(){
             command:"CreateGame",
 	    gid:"1235",
             name:"TheFirstGame",
-            playerX : "Gulli"
+            user : "TestPlayer"
         };
         then=[];
 
@@ -80,13 +80,13 @@ describe('CreateGame command:', function(){
             gid:"1235",
             name:"TheFirstGame",
             event:"GameCreated",
-            playerX: "Gulli"
+            user: "TestPlayer"
         }];
         when={
             command:"CreateGame",
             gid:"1235",
             name:"TheFirstGame",
-            playerX : "Gulli"
+            user : "TestPlayer"
         };
         then=[];
 	try {

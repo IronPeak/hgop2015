@@ -16,10 +16,10 @@ module.exports = function tictactoeCommandHandler(events) {
 	"GameCreated": function(event) {
 	    gameState.gid = event.gid;
 	    gameState.name = event.name;
-	    gameState.playerX = event.playerX;
+	    gameState.playerX = event.user;
 	},
 	"GameJoined": function(event) {
-	    gameState.playerO = event.playerO;
+	    gameState.playerO = event.user;
 	},
 	"MoveMade": function(event) {
 	    gameState.board[event.x][event.y] = event.side;
@@ -96,8 +96,8 @@ module.exports = function tictactoeCommandHandler(events) {
 		if(cmd.name === undefined) {
 		    throw new Error("CreateGame: name is undefined");		
 		}
-		if(cmd.playerX === undefined) {
-		    throw new Error("CreateGame: playerX name is undefined"); 		
+		if(cmd.user === undefined) {
+		    throw new Error("CreateGame: user name is undefined"); 		
 		}
 		if(gameState.eventcount !== 0) {
 		    throw new Error("CreateGame: should always be the first command");		
@@ -106,7 +106,7 @@ module.exports = function tictactoeCommandHandler(events) {
 		    gid: cmd.gid,
 		    name: cmd.name,
                     event: "GameCreated",
-		    playerX: cmd.playerX
+		    user: cmd.user
 		}];
 	    }
 	},
@@ -124,56 +124,64 @@ module.exports = function tictactoeCommandHandler(events) {
 		if(gameState.playerO !== undefined) {
 		    throw new Error("JoinGame: the game is already full");		
 		}
-		if(cmd.playerO === undefined) {
-		    throw new Error("JoinGame: playerO name is undefined"); 		
+		if(cmd.user === undefined) {
+		    throw new Error("JoinGame: user name is undefined"); 		
 		}
-		if(gameState.playerX === cmd.playerO) {
+		if(gameState.playerX === cmd.user) {
 		    throw new Error("JoinGame: playerX and playerO can't have the same name");		
 		}
 		return [{
 		    gid: cmd.gid,
 		    name: cmd.name,
 		    event: "GameJoined",
-		    playerX: gameState.playerX,
-		    playerO: cmd.playerO
+		    user: cmd.user
 		}];
 	    }	
 	},
-	"MakeMoveX": function(cmd) {
+	"MakeMove": function(cmd) {
 	    {
 		if(cmd.gid !== gameState.gid) {
-		    throw new Error("MakeMoveX: gids did not match");		
+		    throw new Error("MakeMove: gids did not match");		
 		}
 		if(cmd.name !== gameState.name) {
-		    throw new Error("MakeMoveX: names did not match");		
+		    throw new Error("MakeMove: names did not match");		
 		}
-		if(cmd.playerX !== gameState.playerX) {
-		    throw new Error("MakeMoveX: playerX does not match");		
+		if(cmd.user !== gameState.playerX && cmd.user !== gameState.playerO) {
+		    throw new Error("MakeMove: this user is not a player in the game");		
 		}
 		if(gameState.playerO === undefined) {
-		    throw new Error("MakeMoveX: playerO missing");		
+		    throw new Error("MakeMove: playerO missing");		
 		}
-		if(gameState.move % 2 !== 0) {
-		    throw new Error("MakeMoveX: it is not your turn");		
+		if(gameState.move % 2 === 0) {
+		    cmd.side = 'X';	
+		    if(cmd.user !== gameState.playerX) {
+			throw new Error("MakeMove: It is not your turn");
+		    }
+		}
+		if(gameState.move % 2 === 1) {
+		    cmd.side = 'O';	
+		    if(cmd.user !== gameState.playerO) {
+			throw new Error("MakeMove: It is not your turn");
+		    }
 		}
 		if(cmd.x < 0 || 2 < cmd.x || cmd.y < 0 || 2 < cmd.y) {
-		    throw new Error("MakeMoveX: not a valid board position");
+		    throw new Error("MakeMove: not a valid board position");
 		}
 		if(gameState.board[cmd.x][cmd.y] !== '') {
-		    throw new Error("MakeMoveX: board position already taken");
+		    throw new Error("MakeMove: board position already taken");
 		}
-		gameState.board[cmd.x][cmd.y] = 'X';
+		gameState.board[cmd.x][cmd.y] = cmd.side;
 		gameState.move++;
-		if(isWinner('X')) {
+		if(isWinner(cmd.side)) {
 		    return [{
 		        gid: cmd.gid,
 		        name: cmd.name,
 		        x: cmd.x,
 		        y: cmd.y,
-		        side: 'X',
+		        side: cmd.side,
                         event: "GameOver",
-		        playerX: cmd.playerX,
-			winner: cmd.playerX
+		        user: cmd.user,
+			winner: cmd.user
 		    }];
 		}
 		if(isGameOver()) {
@@ -182,9 +190,9 @@ module.exports = function tictactoeCommandHandler(events) {
 		        name: cmd.name,
 		        x: cmd.x,
 		        y: cmd.y,
-		        side: 'X',
+		        side: cmd.side,
                         event: "GameOver",
-		        playerX: cmd.playerX,
+		        user: cmd.user,
 			winner: undefined
 		    }];
 		}
@@ -193,54 +201,9 @@ module.exports = function tictactoeCommandHandler(events) {
 		    name: cmd.name,
 		    x: cmd.x,
 		    y: cmd.y,
-		    side: 'X',
+		    side: cmd.side,
                     event: "MoveMade",
-		    playerX: cmd.playerX
-		}];
-	    }
-	},
-	"MakeMoveO": function(cmd) {
-	    {
-		if(cmd.gid !== gameState.gid) {
-		    throw new Error("MakeMoveO: gids did not match");		
-		}
-		if(cmd.name !== gameState.name) {
-		    throw new Error("MakeMoveO: names did not match");		
-		}
-		if(cmd.playerO !== gameState.playerO) {
-		    throw new Error("MakeMoveO: playerO does not match");		
-		}
-		if(gameState.move % 2 !== 1) {
-		    throw new Error("MakeMoveO: it is not your turn");		
-		}
-		if(cmd.x < 0 || 2 < cmd.x || cmd.y < 0 || 2 < cmd.y) {
-		    throw new Error("MakeMoveO: not a valid board position");
-		}
-		if(gameState.board[cmd.x][cmd.y] !== '') {
-		    throw new Error("MakeMoveO: board position already taken");
-		}
-		gameState.board[cmd.x][cmd.y] = 'O';
-		gameState.move++;
-		if(isWinner('O')) {
-		    return [{
-		        gid: cmd.gid,
-		        name: cmd.name,
-		        x: cmd.x,
-		        y: cmd.y,
-		        side: 'O',
-                        event: "GameOver",
-		        playerO: cmd.playerO,
-			winner: cmd.playerO
-		    }];
-		}
-		return [{
-		    gid: cmd.gid,
-		    name: cmd.name,
-		    x: cmd.x,
-		    y: cmd.y,
-		    side: 'O',
-                    event: "MoveMade",
-		    playerO: cmd.playerO
+		    user: cmd.user
 		}];
 	    }
 	}

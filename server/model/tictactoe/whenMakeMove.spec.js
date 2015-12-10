@@ -1,37 +1,48 @@
 var tictactoeCommandHandler = require('./tictactoeCommandHandler');
 
-describe('MakeMoveX command:', function(){
+describe('MakeMove command:', function(){
     var given, when, then;
 
-    it('Should make a move',function(){
+    beforeEach(function(){
         given=[{
             gid: "1235",
             name:"TheFirstGame",
 	    event: "GameCreated",
-            playerX : "Gulli"
+            user : "Hrafn"
         },{
 	    gid: "1235",
             name:"TheFirstGame",
             event:"GameJoined",
-            playerX: "Gulli",
-	    playerO: "Halli"
+	    user: "Bara"
         }];
+    });
+
+    it('Should make a move',function(){
+        given.push({
+            gid: "1235",
+	    name: "TheFirstGame",
+	    x: 0,
+	    y: 0,
+	    side: 'X',
+            event: "MoveMade",
+	    user: "Hrafn"
+        });
         when={
-            command:"MakeMoveX",
+            command:"MakeMove",
             gid: "1235",
             name:"TheFirstGame",
 	    x: 1,
 	    y: 1,
-            playerX: "Gulli"
+            user: "Bara"
         };
         then=[{
             gid: "1235",
 	    name: "TheFirstGame",
 	    x: 1,
 	    y: 1,
-	    side: 'X',
+	    side: 'O',
             event: "MoveMade",
-	    playerX: "Gulli"
+	    user: "Bara"
         }];
 
         var actualEvents = tictactoeCommandHandler(given).execute(when);
@@ -39,20 +50,14 @@ describe('MakeMoveX command:', function(){
         JSON.stringify(actualEvents).should.be.exactly(JSON.stringify(then));
     });
 
-    it('Game must have an opponent',function(){
-        given=[{
-            gid: "1235",
-            name:"TheFirstGame",
-	    event: "GameCreated",
-            playerX : "Gulli"
-        }];
+    it('Can not make first move',function(){
         when={
-            command:"MakeMoveX",
+            command:"MakeMove",
             gid: "1235",
             name:"TheFirstGame",
 	    x: 1,
 	    y: 1,
-            playerX: "Gulli"
+            user: "Bara"
         };
         then=[];
 
@@ -64,34 +69,23 @@ describe('MakeMoveX command:', function(){
 	}
     });
 
-    it('Can not make move twice in a row',function(){
-        given=[{
+    it('Can not make move in filled spot',function(){
+        given.push({
             gid: "1235",
-            name:"TheFirstGame",
-	    event: "GameCreated",
-            playerX : "Gulli"
-        },{
-	    gid: "1235",
-            name:"TheFirstGame",
-            event:"GameJoined",
-            playerX: "Gulli",
-	    playerO: "Halli"
-        },{
-	    gid: "1235",
 	    name: "TheFirstGame",
-	    x: 1,
-	    y: 1,
+	    x: 0,
+	    y: 0,
 	    side: 'X',
             event: "MoveMade",
-	    playerX: "Gulli"
-	}];
+	    user: "Hrafn"
+        });
         when={
-            command:"MakeMoveX",
+            command:"MakeMove",
             gid: "1235",
             name:"TheFirstGame",
-	    x: 2,
-	    y: 2,
-            playerX: "Gulli"
+	    x: 0,
+	    y: 0,
+            user: "Bara"
         };
         then=[];
 
@@ -103,26 +97,23 @@ describe('MakeMoveX command:', function(){
 	}
     });
 
-    it('Can not make move outside the board',function(){
-        given=[{
+    it('Can not make move outside board',function(){
+        given.push({
             gid: "1235",
-            name:"TheFirstGame",
-	    event: "GameCreated",
-            playerX : "Gulli"
-        },{
-	    gid: "1235",
-            name:"TheFirstGame",
-            event:"GameJoined",
-            playerX: "Gulli",
-	    playerO: "Halli"
-        }];
+	    name: "TheFirstGame",
+	    x: 0,
+	    y: 0,
+	    side: 'X',
+            event: "MoveMade",
+	    user: "Hrafn"
+        });
         when={
-            command:"MakeMoveX",
+            command:"MakeMove",
             gid: "1235",
             name:"TheFirstGame",
 	    x: 3,
-	    y: 1,
-            playerX: "Gulli"
+	    y: 2,
+            user: "Bara"
         };
         then=[];
 
@@ -134,52 +125,51 @@ describe('MakeMoveX command:', function(){
 	}
     });
 
-    it('Can make move after playerO',function(){
-        given=[{
+    it('Can make second move',function(){
+        given.push({
             gid: "1235",
-            name:"TheFirstGame",
-	    event: "GameCreated",
-            playerX : "Gulli"
-        },{
-	    gid: "1235",
-            name:"TheFirstGame",
-            event:"GameJoined",
-            playerX: "Gulli",
-	    playerO: "Halli"
-        },{
+	    name: "TheFirstGame",
+	    x: 0,
+	    y: 0,
+	    side: 'X',
+            event: "MoveMade",
+	    user: "Hrafn"
+        });
+	given.push({
             gid: "1235",
 	    name: "TheFirstGame",
 	    x: 1,
 	    y: 1,
-	    side: 'X',
-            event: "MoveMade",
-	    playerX: "Gulli"
-        },{
-            gid: "1235",
-	    name: "TheFirstGame",
-	    x: 2,
-	    y: 0,
 	    side: 'O',
             event: "MoveMade",
-	    playerX: "Halli"
-        }];
-        when={
-            command:"MakeMoveX",
-            gid: "1235",
-            name:"TheFirstGame",
-	    x: 2,
-	    y: 1,
-            playerX: "Gulli"
-        };
-        then=[{
+	    user: "Hrafn"
+        });
+	given.push({
             gid: "1235",
 	    name: "TheFirstGame",
 	    x: 2,
-	    y: 1,
+	    y: 2,
 	    side: 'X',
             event: "MoveMade",
-	    playerX: "Gulli"
-        }];
+	    user: "Hrafn"
+        });
+        when={
+            command:"MakeMove",
+            gid: "1235",
+            name:"TheFirstGame",
+	    x: 1,
+	    y: 2,
+            user: "Bara"
+        };
+        then=[{
+	    gid: "1235",
+	    name: "TheFirstGame",
+	    x: 1,
+	    y: 2,
+	    side: 'O',
+            event: "MoveMade",
+	    user: "Bara"
+	}];
 
         var actualEvents = tictactoeCommandHandler(given).execute(when);
 

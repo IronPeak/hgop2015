@@ -10,8 +10,8 @@ describe('GET /api/gameHistory', function () {
     var command =     {
       command: "CreateGame",
       gid : "999",
-      name: "TheFirstGame",
-      playerX: "Gulli"
+      name: "GameHistoryTest",
+      user: "Hrabbi"
     };
 
     var req = request(app);
@@ -31,9 +31,9 @@ describe('GET /api/gameHistory', function () {
             should(res.body).eql(
               [{
                 "gid": "999",
-		"name": "TheFirstGame",
+		"name": "GameHistoryTest",
                 "event": "GameCreated",
-                "playerX": "Gulli"
+                "user": "Hrabbi"
               }]);
             done();
           });

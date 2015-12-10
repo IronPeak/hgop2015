@@ -18,7 +18,7 @@ describe('TEST ENV GET /api/gameHistory', function () {
       command:"CreateGame",
       gid:"9",
       name:"TestGameName",
-      playerX: "TestPlayer"
+      user: "TestPlayer"
     };
 
     var req = request(acceptanceUrl);
@@ -40,7 +40,7 @@ describe('TEST ENV GET /api/gameHistory', function () {
                 "gid": "9",
 		"name": "TestGameName",
                 "event": "GameCreated",
-                "playerX": "TestPlayer"
+                "user": "TestPlayer"
               }]);
             done();
           });

@@ -8,13 +8,12 @@ describe('GameDraw:', function(){
             gid: "1",
             name:"game",
 	    event: "GameCreated",
-            playerX : "player1"
+            user : "player1"
         },{
 	    gid: "1",
             name:"game",
 	    event: "GameJoined",
-            playerX: "player1",
-	    playerO: "player2"
+	    user: "player2"
 	},{
 	    gid: "1",
 	    name: "game",
@@ -22,7 +21,7 @@ describe('GameDraw:', function(){
 	    y: 0,
 	    side: 'X',
             event: "MoveMade",
-	    playerX: "player1"
+	    user: "player1"
 	},{
 	    gid: "1",
 	    name: "game",
@@ -30,7 +29,7 @@ describe('GameDraw:', function(){
 	    y: 0,
 	    side: 'O',
             event: "MoveMade",
-	    playerO: "player2"
+	    user: "player2"
 	},{
 	    gid: "1",
 	    name: "game",
@@ -38,7 +37,7 @@ describe('GameDraw:', function(){
 	    y: 0,
 	    side: 'X',
             event: "MoveMade",
-	    playerX: "player1"
+	    user: "player1"
 	},{
 	    gid: "1",
 	    name: "game",
@@ -46,7 +45,7 @@ describe('GameDraw:', function(){
 	    y: 1,
 	    side: 'O',
             event: "MoveMade",
-	    playerO: "player2"
+	    user: "player2"
 	},{
 	    gid: "1",
 	    name: "game",
@@ -54,7 +53,7 @@ describe('GameDraw:', function(){
 	    y: 1,
 	    side: 'X',
             event: "MoveMade",
-	    playerX: "player1"
+	    user: "player1"
 	},{
 	    gid: "1",
 	    name: "game",
@@ -62,7 +61,7 @@ describe('GameDraw:', function(){
 	    y: 2,
 	    side: 'O',
             event: "MoveMade",
-	    playerO: "player2"
+	    user: "player2"
 	},{
 	    gid: "1",
 	    name: "game",
@@ -70,7 +69,7 @@ describe('GameDraw:', function(){
 	    y: 1,
 	    side: 'X',
             event: "MoveMade",
-	    playerX: "player1"
+	    user: "player1"
 	},{
 	    gid: "1",
 	    name: "game",
@@ -78,15 +77,15 @@ describe('GameDraw:', function(){
 	    y: 2,
 	    side: 'O',
             event: "MoveMade",
-	    playerO: "player2"
+	    user: "player2"
 	}];
         when={
-	    command: "MakeMoveX",
+	    command: "MakeMove",
 	    gid: "1",
 	    name: "game",
 	    x: 1,
 	    y: 2,
-	    playerX: "player1"
+	    user: "player1"
 	};
         then=[{
             gid: "1",
@@ -95,7 +94,7 @@ describe('GameDraw:', function(){
 	    y: 2,
 	    side: 'X',
             event:"GameOver",
-            playerX: "player1",
+            user: "player1",
 	    winner: undefined
         }];
 

@@ -8,20 +8,19 @@ describe('JoinGame command:', function(){
             gid: "1235",
             name:"TheFirstGame",
 	    event: "GameCreated",
-            playerX : "Gulli"
+            user : "123TestPlayer"
         }];
         when={
             command:"JoinGame",
             gid: "1235",
             name:"TheFirstGame",
-            playerO: "Halli"
+            user: "123TestPlayer2"
         };
         then=[{
             gid: "1235",
             name:"TheFirstGame",
             event:"GameJoined",
-            playerX: "Gulli",
-	    playerO: "Halli"
+            user: "123TestPlayer2",
         }];
 
         var actualEvents = tictactoeCommandHandler(given).execute(when);
@@ -35,7 +34,7 @@ describe('JoinGame command:', function(){
             command:"JoinGame",
             gid: "1235",
             name:"TheFirstGame",
-            playerO: "Halli"
+            user: "123TestPlayer2"
         };
         then=[];
 
@@ -52,13 +51,13 @@ describe('JoinGame command:', function(){
             gid: "123",
             name:"Game",
 	    event: "GameCreated",
-            playerX : "Xid"
+            user : "Xid"
         }];
         when={
             command:"JoinGame",
             gid: "123",
             name:"Game2",
-            playerO: "Oid"
+            user: "Oid"
         };
         then=[];
 
@@ -75,13 +74,13 @@ describe('JoinGame command:', function(){
             gid: "123",
             name:"Game",
 	    event: "GameCreated",
-            playerX : "Xid"
+            user : "Xid"
         }];
         when={
             command:"JoinGame",
             gid: "123",
             name:"Game",
-            playerO: undefined
+            user: undefined
         };
         then=[];
 
@@ -98,13 +97,13 @@ describe('JoinGame command:', function(){
             gid: "123",
             name:"Game",
 	    event: "GameCreated",
-            playerX : "NAME"
+            user : "NAME"
         }];
         when={
             command:"JoinGame",
             gid: "123",
             name:"Game2",
-            playerO: "NAME"
+            user: "NAME"
         };
         then=[];
 
@@ -121,19 +120,19 @@ describe('JoinGame command:', function(){
             gid: "123",
             name:"Game",
 	    event: "GameCreated",
-            playerX: "NAME1"
+            user: "NAME1"
         },
 	{
 	    gid: "123",
 	    name: "Game",
 	    event: "GameJoined",
-	    playerO: "NAME2"
+	    user: "NAME2"
 	}];
         when={
             command:"JoinGame",
             gid: "123",
             name:"Game",
-            playerO: "NAME3"
+            user: "NAME3"
         };
         then=[];
 
