@@ -3,7 +3,6 @@
 echo Cleaning...
 rm -rf ./dist
 
-
 echo Building app
 grunt
 gruntexitcode=$?
@@ -11,13 +10,6 @@ if [ $gruntexitcode != 0 ]; then
     echo "grunt exited with error code $gruntexitcode"
     exit $gruntexitcode
 fi
-
-rc=$?
-if [[ $rc != 0 ]] ; then
-    echo "Grunt build failed with exit code " $rc
-    exit $rc
-fi
-
 
 if [ -z "$GIT_COMMIT" ]; then
   export GIT_COMMIT=$(git rev-parse HEAD)
@@ -61,20 +53,7 @@ if [ $buildexitcode != 0 ]; then
     exit $buildexitcode
 fi
 
-docker push ironpeak/tictactoe
-pushexitcode=$?
-if [ $pushexitcode != 0 ]; then
-    echo "docker push exited with error code $pushexitcode"
-    exit $pushexitcode
-fi
-
-rc=$?
-if [[ $rc != 0 ]] ; then
-    echo "Docker build failed " $rc
-    exit $rc
-fi
-
-docker push gulli/tictactoe:$GIT_COMMIT
+docker push ironpeak/tictactoe:$GIT_COMMIT
 rc=$?
 if [[ $rc != 0 ]] ; then
     echo "Docker push failed " $rc
