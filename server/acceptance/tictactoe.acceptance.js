@@ -48,6 +48,6 @@ describe('TEST ENV GET /api/gameHistory', function () {
   });
 
     it('Should execute fluid API test', function (done) {
-        given(user("HrafnOrri").createGame("brabra").named("DasGame")).expect("GameCreated").isOk(done);
+        given(user("HrafnOrri").createGame("brabra").named("DasGame")).expectEvent("GameCreated").isOk(done);
     });
 });

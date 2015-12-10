@@ -9,6 +9,6 @@ describe('MakeMove acceptance test:', function () {
         given(user("HrafnOrri").createGame("MMGTestGame1"))
 	.and(user("BaraDrofn").joinGame("MMGTestGame1"))
 	.and(user("HrafnOrri").makeMove(1, 1))
-	.expect("MoveMade").isOk(done);
+	.expectEvent("MoveMade").isOk(done);
     });
 });

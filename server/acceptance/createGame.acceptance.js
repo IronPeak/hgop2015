@@ -7,6 +7,6 @@ describe('CreateGame acceptance test:', function () {
 
     it('Should join game', function (done) {
         given(user("HrafnOrri").createGame("CGTestGame1"))
-	.expect("GameCreated").isOk(done);
+	.expectEvent("GameCreated").isOk(done);
     });
 });

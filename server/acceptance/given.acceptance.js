@@ -16,7 +16,13 @@ module.exports = function given(user) {
 
     var expectations = {
 	expectingevent: false,
-	event: undefined
+	event: undefined,
+
+	expectingplayerx: false,
+	playerx: undefined,
+
+	expectingplayero: false,
+	playero: undefined
     };
 
     var cmdwrap = [];
@@ -67,6 +73,12 @@ module.exports = function given(user) {
         if(expectations.expectingevent === true) {
 	    should(expectations.event).eql(result.event);
 	}
+	if(expectations.expectingplayerx === true) {
+	    should(expectations.playerx).eql(result.playerX);
+	}
+	if(expectations.expectingplayero === true) {
+	    should(expectations.playero).eql(result.playerO);
+	}
     };
 
     var api = {
@@ -78,10 +90,20 @@ module.exports = function given(user) {
     	    comm(user);
 	    return api;
 	},
-	expect: function(event) {
+	expectEvent: function(event) {
 	    expectations.expectingevent = true;
 	    expectations.event = event;
             return api;
+	},
+	byPlayerX: function(username) {
+	    expectations.expectingplayerx = true;
+	    expectations.playerx = username;
+	    return api;
+	},
+	byPlayerO: function(username) {
+	    expectations.expectingplayero = true;
+	    expectations.playero = username;
+	    return api;
 	},
 	isOk: function(done) {
 	    var req = request(acceptanceUrl);

@@ -8,6 +8,6 @@ describe('JoinGame acceptance test:', function () {
     it('Should join game', function (done) {
         given(user("HrafnOrri").createGame("JGTestGame1"))
 	.and(user("BaraDrofn").joinGame("JGTestGame1"))
-	.expect("GameJoined").isOk(done);
+	.expectEvent("GameJoined").isOk(done);
     });
 });
