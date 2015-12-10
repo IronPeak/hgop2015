@@ -44,6 +44,21 @@ module.exports = function given(user) {
 		dest: "/api/joinGame",
 		cmd: user.cmd
             });
+	},
+	"MakeMove": function(user) {
+	    user.cmd.gid = properties.gid;
+	    user.cmd.name = properties.name;
+	    if(user.name === properties.playerX) {
+		user.cmd.playerX = properties.playerX;
+		user.cmd.command = "MakeMoveX";
+	    } else {
+		user.cmd.playerO = properties.playerO;
+		user.cmd.command = "MakeMoveO";
+	    }
+	    cmdwrap.push({
+		dest: "/api/makeMove",
+		cmd: user.cmd
+            });
 	}
     };
 
