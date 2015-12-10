@@ -8,14 +8,14 @@ module.exports = function user(username) {
             this.cmd.gid = gid;
 	    this.cmd.name = undefined;
 	    this.cmd.command = "CreateGame";
-	    this.cmd.playerX = username;
+	    this.cmd.user = username;
             return api;
 	},
 	joinGame: function(gid) {
 	    this.cmd.gid = gid;
 	    this.cmd.name = undefined;
 	    this.cmd.command = "JoinGame";
-	    this.cmd.playerO = username;
+	    this.cmd.user = username;
 	    return api;
 	},
 	named: function(name) {

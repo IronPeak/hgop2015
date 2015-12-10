@@ -18,11 +18,8 @@ module.exports = function given(user) {
 	expectingevent: false,
 	event: undefined,
 
-	expectingplayerx: false,
-	playerx: undefined,
-
-	expectingplayero: false,
-	playero: undefined
+	expectinguser: false,
+	user: undefined
     };
 
     var cmdwrap = [];
@@ -36,14 +33,14 @@ module.exports = function given(user) {
 	        properties.name = "TestGame";
 		user.cmd.name = "TestGame";
 	    }
-            properties.playerX = user.cmd.playerX;
+            properties.playerX = user.cmd.user;
             cmdwrap.push({
 		dest: "/api/createGame",
 		cmd: user.cmd
 	    });
 	},
         "JoinGame": function(user) {
-            properties.playerO = user.cmd.playerO;
+            properties.playerO = user.cmd.user;
 	    if(user.cmd.name === undefined) {
             	user.cmd.name = properties.name
 	    }
@@ -56,11 +53,12 @@ module.exports = function given(user) {
 	    user.cmd.gid = properties.gid;
 	    user.cmd.name = properties.name;
 	    if(user.name === properties.playerX) {
-		user.cmd.playerX = properties.playerX;
-		user.cmd.command = "MakeMoveX";
-	    } else {
-		user.cmd.playerO = properties.playerO;
-		user.cmd.command = "MakeMoveO";
+		user.cmd.user = properties.playerX;
+		user.cmd.command = "MakeMove";
+	    } 
+	    if(user.name === properties.playerO) {
+		user.cmd.user = properties.playerO;
+		user.cmd.command = "MakeMove";
 	    }
 	    cmdwrap.push({
 		dest: "/api/makeMove",
@@ -71,13 +69,10 @@ module.exports = function given(user) {
 
     function matchExpectations(result) {
         if(expectations.expectingevent === true) {
-	    should(expectations.event).eql(result.event);
+	    should(result.event).eql(expectations.event);
 	}
-	if(expectations.expectingplayerx === true) {
-	    should(expectations.playerx).eql(result.playerX);
-	}
-	if(expectations.expectingplayero === true) {
-	    should(expectations.playero).eql(result.playerO);
+	if(expectations.expectinguser === true) {
+	    should(result.user).eql(expectations.user);
 	}
     };
 
@@ -95,14 +90,9 @@ module.exports = function given(user) {
 	    expectations.event = event;
             return api;
 	},
-	byPlayerX: function(username) {
-	    expectations.expectingplayerx = true;
-	    expectations.playerx = username;
-	    return api;
-	},
-	byPlayerO: function(username) {
-	    expectations.expectingplayero = true;
-	    expectations.playero = username;
+	byUser: function(username) {
+	    expectations.expectinguser = true;
+	    expectations.user = username;
 	    return api;
 	},
 	isOk: function(done) {
