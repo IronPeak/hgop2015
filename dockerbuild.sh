@@ -47,7 +47,7 @@ if [ $npmexitcode != 0 ]; then
     exit $npmexitcode
 fi
 
-echo Building docker image
+echo "Building docker image"
 sudo service docker start
 docker build -t ironpeak/tictactoe:$GIT_COMMIT .
 buildexitcode=$?
