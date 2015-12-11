@@ -4,13 +4,6 @@ export PATH=/usr/local/bin:$PATH;
 export DISPLAY=:0
 export ACCEPTANCE_URL=192.168.50.4:8080
 
-./deploy.sh
-deployexitcode=$?
-if [ $deployexitcode != 0 ]; then
-  echo "deploy exited with error code $deployexitcode"
-  exit $deployexitcode
-fi
-
 npm install
 npmexitcode=$?
 if [ $npmexitcode != 0 ]; then
@@ -23,6 +16,13 @@ bowerexitcode=$?
 if [ $bowerexitcode != 0 ]; then
   echo "bower install exited with error code $bowerexitcode"
   exit $bowerexitcode
+fi
+
+./deploy.sh
+deployexitcode=$?
+if [ $deployexitcode != 0 ]; then
+  echo "deploy exited with error code $deployexitcode"
+  exit $deployexitcode
 fi
 
 grunt mochaTest:acceptance
