@@ -129,7 +129,6 @@ function given(user) {
 		.end(function(err, res) {
 		    if(err) return done(err);
 		});
-		console.log(w.cmd);
 	    });
 
             req
@@ -140,7 +139,6 @@ function given(user) {
                 if (err) return done(err);
                 res.body.should.be.instanceof(Array);
 		_.each(res.body, function(e) {
-		    console.log(e);
 		});
 		matchExpectations(res.body[res.body.length - 1]);
                 done();
