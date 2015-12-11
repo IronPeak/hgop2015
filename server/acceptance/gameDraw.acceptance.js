@@ -5,18 +5,113 @@ var given = require('../fluid-api/tictactoeFluid').given;
 
 describe('Game draw acceptance test:', function () {
 
-    it('Should result in a draw', function (done) {
-        given(user("HrafnOrri").createGame("GDTestGame1"))
-	.and(user("BaraDrofn").joinGame("GDTestGame1"))
-	.and(user("HrafnOrri").makeMove(1, 0))
-	.and(user("BaraDrofn").makeMove(0, 0))
-	.and(user("HrafnOrri").makeMove(1, 1))
-	.and(user("BaraDrofn").makeMove(2, 0))
-	.and(user("HrafnOrri").makeMove(2, 1))
-	.and(user("BaraDrofn").makeMove(0, 1))
-	.and(user("HrafnOrri").makeMove(0, 2))
-	.and(user("BaraDrofn").makeMove(1, 2))
-	.and(user("HrafnOrri").makeMove(2, 2))
-	.expectEvent("GameOver").byUser("HrafnOrri").atPosition(2, 2).withWinner(undefined).isOk(done);
+    it('Creating Game', function (done) {
+        given(user("TestUser1").createGame("GameDrawTest00").named("fasdfasg"))
+	.expectEvent("GameCreated").byUser("TestUser1").isOk(done);
+    });
+
+    it('Join Game', function (done) {
+        given(user("TestUser1").createGame("GameDrawTest01").named("fasdfasg"))
+	.and(user("TestUser2").joinGame("GameDrawTest01"))
+	.expectEvent("GameJoined").byUser("TestUser2").isOk(done);
+    });
+
+    it('Move 1', function (done) {
+        given(user("TestUser1").createGame("GameDrawTest02").named("fasdfasg"))
+	.and(user("TestUser2").joinGame("GameDrawTest02"))
+	.and(user("TestUser1").makeMove(1, 0))
+	.expectEvent("MoveMade").byUser("TestUser1").isOk(done);
+    });
+
+    it('Move 2', function (done) {
+        given(user("TestUser1").createGame("GameDrawTest03").named("fasdfasg"))
+	.and(user("TestUser2").joinGame("GameDrawTest03"))
+	.and(user("TestUser1").makeMove(1, 0))
+	.and(user("TestUser2").makeMove(0, 0))
+	.expectEvent("MoveMade").byUser("TestUser2").isOk(done);
+    });
+
+    it('Move 3', function (done) {
+        given(user("TestUser1").createGame("GameDrawTest04").named("fasdfasg"))
+	.and(user("TestUser2").joinGame("GameDrawTest04"))
+	.and(user("TestUser1").makeMove(1, 0))
+	.and(user("TestUser2").makeMove(0, 0))
+	.and(user("TestUser1").makeMove(1, 1))
+	.expectEvent("MoveMade").byUser("TestUser1").isOk(done);
+    });
+
+    it('Move 4', function (done) {
+        given(user("TestUser1").createGame("GameDrawTest05").named("fasdfasg"))
+	.and(user("TestUser2").joinGame("GameDrawTest05"))
+	.and(user("TestUser1").makeMove(1, 0))
+	.and(user("TestUser2").makeMove(0, 0))
+	.and(user("TestUser1").makeMove(1, 1))
+	.and(user("TestUser2").makeMove(2, 0))
+	.expectEvent("MoveMade").byUser("TestUser2").isOk(done);
+    });
+
+    it('Move 5', function (done) {
+        given(user("TestUser1").createGame("GameDrawTest06").named("fasdfasg"))
+	.and(user("TestUser2").joinGame("GameDrawTest06"))
+	.and(user("TestUser1").makeMove(1, 0))
+	.and(user("TestUser2").makeMove(0, 0))
+	.and(user("TestUser1").makeMove(1, 1))
+	.and(user("TestUser2").makeMove(2, 0))
+	.and(user("TestUser1").makeMove(2, 1))
+	.expectEvent("MoveMade").byUser("TestUser1").isOk(done);
+    });
+
+    it('Move 6', function (done) {
+        given(user("TestUser1").createGame("GameDrawTest07").named("fasdfasg"))
+	.and(user("TestUser2").joinGame("GameDrawTest07"))
+	.and(user("TestUser1").makeMove(1, 0))
+	.and(user("TestUser2").makeMove(0, 0))
+	.and(user("TestUser1").makeMove(1, 1))
+	.and(user("TestUser2").makeMove(2, 0))
+	.and(user("TestUser1").makeMove(2, 1))
+	.and(user("TestUser2").makeMove(0, 1))
+	.expectEvent("MoveMade").byUser("TestUser2").isOk(done);
+    });
+
+    it('Move 7', function (done) {
+        given(user("TestUser1").createGame("GameDrawTest08").named("fasdfasg"))
+	.and(user("TestUser2").joinGame("GameDrawTest08"))
+	.and(user("TestUser1").makeMove(1, 0))
+	.and(user("TestUser2").makeMove(0, 0))
+	.and(user("TestUser1").makeMove(1, 1))
+	.and(user("TestUser2").makeMove(2, 0))
+	.and(user("TestUser1").makeMove(2, 1))
+	.and(user("TestUser2").makeMove(0, 1))
+	.and(user("TestUser1").makeMove(0, 2))
+	.expectEvent("MoveMade").byUser("TestUser1").isOk(done);
+    });
+
+    it('Move 8', function (done) {
+        given(user("TestUser1").createGame("GameDrawTest09").named("fasdfasg"))
+	.and(user("TestUser2").joinGame("GameDrawTest09"))
+	.and(user("TestUser1").makeMove(1, 0))
+	.and(user("TestUser2").makeMove(0, 0))
+	.and(user("TestUser1").makeMove(1, 1))
+	.and(user("TestUser2").makeMove(2, 0))
+	.and(user("TestUser1").makeMove(2, 1))
+	.and(user("TestUser2").makeMove(0, 1))
+	.and(user("TestUser1").makeMove(0, 2))
+	.and(user("TestUser2").makeMove(1, 2))
+	.expectEvent("MoveMade").byUser("TestUser2").isOk(done);
+    });
+
+    it('Should be a draw', function (done) {
+        given(user("TestUser1").createGame("GameDrawTest10").named("fasdfasg"))
+	.and(user("TestUser2").joinGame("GameDrawTest10"))
+	.and(user("TestUser1").makeMove(1, 0))
+	.and(user("TestUser2").makeMove(0, 0))
+	.and(user("TestUser1").makeMove(1, 1))
+	.and(user("TestUser2").makeMove(2, 0))
+	.and(user("TestUser1").makeMove(2, 1))
+	.and(user("TestUser2").makeMove(0, 1))
+	.and(user("TestUser1").makeMove(0, 2))
+	.and(user("TestUser2").makeMove(1, 2))
+	.and(user("TestUser1").makeMove(2, 2))
+	.expectEvent("GameDraw").byUser("TestUser1").atPosition(2, 2).isOk(done);
     });
 });

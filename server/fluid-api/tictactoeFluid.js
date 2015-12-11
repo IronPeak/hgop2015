@@ -109,9 +109,9 @@ function given(user) {
 	    expectations.user = username;
 	    return api;
 	},
-	withWinner: function(username) {
+	withWinner: function(winner) {
 	    expectations.expectingwinner = true;
-	    expectations.winner = username;
+	    expectations.winner = winner;
 	    return api;	
 	},
 	atPosition: function(x, y) {
@@ -121,6 +121,7 @@ function given(user) {
 	    return api;
 	},
 	isOk: function(done) {
+	   
 	    var req = request(acceptanceUrl);
 
 	    _.each(cmdwrap, function(w) {
@@ -129,6 +130,7 @@ function given(user) {
 		    if(err) return done(err);
 		});
 	    });
+	    console.log(cmdwrap);
 
             req
             .get('/api/gameHistory/' + properties.gid)
@@ -137,6 +139,7 @@ function given(user) {
             .end(function (err, res) {
                 if (err) return done(err);
                 res.body.should.be.instanceof(Array);
+		console.log(res.body);
 		matchExpectations(res.body[res.body.length - 1]);
                 done();
             });

@@ -30,6 +30,12 @@ module.exports = function tictactoeCommandHandler(events) {
 	    gameState.winner = event.winner;
 	    gameState.board[event.x][event.y] = event.side;
 	    gameState.move++;
+	},
+	"GameDraw": function(event) {
+	    gameState.gameover = true;
+	    gameState.winner = undefined;
+	    gameState.board[event.x][event.y] = event.side;
+	    gameState.move++;
 	}
     };
 	
@@ -40,43 +46,19 @@ module.exports = function tictactoeCommandHandler(events) {
     });
 
     function isWinner(side) {
-	if(gameState.move < 5) {
-	    return false;	
-	}
-	var x, y, i;
-	for(x = 0; x < 3; x++) {
-            for(y = 0; y < 3; y++) {
-		if(gameState.board[x][y] !== side) {
-		    break;
-		}
-		if(y === 2) {
-		    return true;
-		}
+	for(var i = 0; i < 3; i++) {
+	    if(gameState.board[i][0] === side && gameState.board[i][1] === side && gameState.board[i][2] === side) {
+		return true;
 	    }
-	}
-	for(y = 0; y < 3; y++) {
-            for(x = 0; x < 3; x++) {
-		if(gameState.board[x][y] !== side) {
-		    break;
-		}
-		if(x === 2) {
-		    return true;
-		}
-	    }
-	}
-	for(i = 0; i < 3; i++) {
-	    if(gameState.board[i][i] !== side) {
-		break;
-	    }
-	    if(i === 2) {
+	    if(gameState.board[0][i] === side && gameState.board[1][i] === side && gameState.board[2][i] === side) {
 		return true;
 	    }
 	}
-	for(i = 0; i < 3; i++) {
-	    if(gameState.board[2-i][i] !== side) {
-		break;
+	if(gameState.board[1][1] === side) {
+	    if(gameState.board[0][0] === side && gameState.board[2][2] === side) {
+		return true;
 	    }
-	    if(i === 2) {
+	    if(gameState.board[2][0] === side && gameState.board[0][2] === side) {
 		return true;
 	    }
 	}
@@ -84,12 +66,15 @@ module.exports = function tictactoeCommandHandler(events) {
     }
 
     function isGameOver() {
-	return (gameState.move > 8 || gameState.winnder !== undefined);
+	return ((gameState.move > 8) || (gameState.gameover === true));
     }
 
     var commands = {
 	"CreateGame": function(cmd) {
 	    {
+		if(isGameOver() === true) {
+		    throw new Error("CreateGame: game is finished");	
+		}
 		if(cmd.gid === undefined) {
 		    throw new Error("CreateGame: gid is undefined");		
 		}
@@ -112,6 +97,9 @@ module.exports = function tictactoeCommandHandler(events) {
 	},
 	"JoinGame": function(cmd) {
 	    {
+		if(isGameOver() === true) {
+		    throw new Error("JoinGame: game is finished");	
+		}
 		if(cmd.gid === undefined) {
 		    throw new Error("JoinGame: gid is undefined");		
 		}
@@ -140,6 +128,9 @@ module.exports = function tictactoeCommandHandler(events) {
 	},
 	"MakeMove": function(cmd) {
 	    {
+		if(isGameOver() === true) {
+		    throw new Error("MakeMove: game is finished");	
+		}
 		if(cmd.gid !== gameState.gid) {
 		    throw new Error("MakeMove: gids did not match");		
 		}
@@ -155,16 +146,15 @@ module.exports = function tictactoeCommandHandler(events) {
 		if(gameState.playerX === undefined) {
 		    throw new Error("MakeMove: playerX missing");		
 		}
-		if(gameState.gameOver === true) {
+		if(gameState.gameover === true) {
 		    throw new Error("MakeMove: the game is over");
 		}
-		if(gameState.move % 2 === 0) {
+		if((gameState.move % 2) === 0) {
 		    cmd.side = 'X';	
 		    if(cmd.user !== gameState.playerX) {
 			throw new Error("MakeMove: It is not your turn");
 		    }
-		}
-		if(gameState.move % 2 === 1) {
+		} else {
 		    cmd.side = 'O';	
 		    if(cmd.user !== gameState.playerO) {
 			throw new Error("MakeMove: It is not your turn");
@@ -178,7 +168,7 @@ module.exports = function tictactoeCommandHandler(events) {
 		}
 		gameState.board[cmd.x][cmd.y] = cmd.side;
 		gameState.move++;
-		if(isWinner(cmd.side)) {
+		if(isWinner(cmd.side) === true) {
 		    return [{
 		        gid: cmd.gid,
 		        name: cmd.name,
@@ -190,16 +180,15 @@ module.exports = function tictactoeCommandHandler(events) {
 			winner: cmd.user
 		    }];
 		}
-		if(isGameOver()) {
+		if(isGameOver() === true) {
 		    return [{
 		        gid: cmd.gid,
 		        name: cmd.name,
 		        x: cmd.x,
 		        y: cmd.y,
 		        side: cmd.side,
-                        event: "GameOver",
-		        user: cmd.user,
-			winner: undefined
+                        event: "GameDraw",
+		        user: cmd.user
 		    }];
 		}
 		return [{
