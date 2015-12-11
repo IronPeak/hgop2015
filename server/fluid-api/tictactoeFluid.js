@@ -131,7 +131,7 @@ function given(user) {
 		});
 	    });
 
-            req
+            request(acceptanceUrl)
             .get('/api/gameHistory/' + properties.gid)
             .expect(200)
             .expect('Content-Type', /json/)
@@ -146,11 +146,7 @@ function given(user) {
 	}
     };
 
-    var comm = gameApi[user.cmd.command];
-    if(comm === undefined) {
-	throw new Error("Not a valid command option " + user.cmd.command + ", complete argument: " + JSON.stringify(user.cmd.command));
-    }
-    comm(user);
+    gameApi[user.cmd.command](user);
     return api;
 
 }
@@ -189,5 +185,5 @@ function user(username) {
     return api;
 }
 
-module.exports.user = user;
 module.exports.given = given;
+module.exports.user = user;
