@@ -109,12 +109,12 @@ function given(user) {
 	    expectations.user = username;
 	    return api;
 	},
-	withWinner(username) {
+	withWinner: function(username) {
 	    expectations.expectingwinner = true;
 	    expectations.winner = username;
 	    return api;	
 	},
-	atPosition(x, y) {
+	atPosition: function(x, y) {
 	    expectations.expectingpos = true;
 	    expectations.x = x;
 	    expectations.y = y;
