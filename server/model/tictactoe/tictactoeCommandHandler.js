@@ -59,7 +59,7 @@ module.exports = function tictactoeCommandHandler(events) {
 		if(gameState.board[x][y] !== side) {
 		    break;
 		}
-		if(y === 2) {
+		if(x === 2) {
 		    return true;
 		}
 	    }
@@ -151,6 +151,12 @@ module.exports = function tictactoeCommandHandler(events) {
 		}
 		if(gameState.playerO === undefined) {
 		    throw new Error("MakeMove: playerO missing");		
+		}
+		if(gameState.playerX === undefined) {
+		    throw new Error("MakeMove: playerX missing");		
+		}
+		if(gameState.gameOver === true) {
+		    throw new Error("MakeMove: the game is over");
 		}
 		if(gameState.move % 2 === 0) {
 		    cmd.side = 'X';	

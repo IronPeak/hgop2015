@@ -25,7 +25,7 @@ describe('Player O Wins:', function(){
 	},{
 	    gid: "1",
 	    name: "game",
-	    x: 2,
+	    x: 1,
 	    y: 1,
 	    side: 'O',
             event: "MoveMade",
@@ -41,31 +41,15 @@ describe('Player O Wins:', function(){
 	},{
 	    gid: "1",
 	    name: "game",
-	    x: 0,
-	    y: 1,
+	    x: 1,
+	    y: 0,
 	    side: 'O',
             event: "MoveMade",
 	    user: "player2"
 	},{
 	    gid: "1",
 	    name: "game",
-	    x: 1,
-	    y: 1,
-	    side: 'X',
-            event: "MoveMade",
-	    user: "player1"
-	},{
-	    gid: "1",
-	    name: "game",
-	    x: 0,
-	    y: 2,
-	    side: 'O',
-            event: "MoveMade",
-	    user: "player2"
-	},{
-	    gid: "1",
-	    name: "game",
-	    x: 1,
+	    x: 2,
 	    y: 2,
 	    side: 'X',
             event: "MoveMade",
@@ -76,14 +60,14 @@ describe('Player O Wins:', function(){
 	    gid: "1",
 	    name: "game",
 	    x: 1,
-	    y: 0,
+	    y: 2,
 	    user: "player2"
 	};
         then=[{
             gid: "1",
             name:"game",
 	    x: 1,
-	    y: 0,
+	    y: 2,
 	    side: 'O',
             event:"GameOver",
             user: "player2",
