@@ -32,18 +32,20 @@ describe('JoinGame command:', function(){
         given=[];
         when={
             command:"JoinGame",
-            gid: "1235",
+            gid: "12355",
             name:"TheFirstGame",
             user: "123TestPlayer2"
         };
-        then=[];
+        then=[{
+            gid: "12355",
+	    name: "TheFirstGame",
+            event:"IllegalAction",
+            user: "123TestPlayer2"
+	}];
 
-        try {
-	    tictactoeCommandHandler(given).execute(when);
-	    false.should.be(true);
-	} catch(e) {
-	   	
-	}
+        var actualEvents = tictactoeCommandHandler(given).execute(when);
+
+        JSON.stringify(actualEvents).should.be.exactly(JSON.stringify(then));
     });
 
     it('Require gid and name',function(){
@@ -59,88 +61,96 @@ describe('JoinGame command:', function(){
             name:"Game2",
             user: "Oid"
         };
-        then=[];
+        then=[{
+            gid: "123",
+	    name: "Game2",
+            event:"IllegalAction",
+            user: "Oid"
+	}];
 
-        try {
-	    tictactoeCommandHandler(given).execute(when);
-	    false.should.be(true);
-	} catch(e) {
-	   	
-	}
+	var actualEvents = tictactoeCommandHandler(given).execute(when);
+
+        JSON.stringify(actualEvents).should.be.exactly(JSON.stringify(then));
     });
 
     it('Require O username',function(){
         given=[{
-            gid: "123",
+            gid: "123444",
             name:"Game",
 	    event: "GameCreated",
             user : "Xid"
         }];
         when={
             command:"JoinGame",
-            gid: "123",
+            gid: "123444",
             name:"Game",
             user: undefined
         };
-        then=[];
+        then=[{
+            gid: "123444",
+	    name: "Game",
+            event:"IllegalAction",
+            user: undefined
+	}];
 
-        try {
-	    tictactoeCommandHandler(given).execute(when);
-	    false.should.be(true);
-	} catch(e) {
-	   	
-	}
+        var actualEvents = tictactoeCommandHandler(given).execute(when);
+
+        JSON.stringify(actualEvents).should.be.exactly(JSON.stringify(then));
     });
 
     it('Fail if X and O have same name',function(){
         given=[{
-            gid: "123",
+            gid: "1223",
             name:"Game",
 	    event: "GameCreated",
             user : "NAME"
         }];
         when={
             command:"JoinGame",
-            gid: "123",
-            name:"Game2",
+            gid: "1223",
+            name:"Game",
             user: "NAME"
         };
-        then=[];
+        then=[{
+            gid: "1223",
+	    name: "Game",
+            event:"IllegalAction",
+            user: "NAME"
+	}];
 
-        try {
-	    tictactoeCommandHandler(given).execute(when);
-	    false.should.be(true);
-	} catch(e) {
-	   	
-	}
+        var actualEvents = tictactoeCommandHandler(given).execute(when);
+
+        JSON.stringify(actualEvents).should.be.exactly(JSON.stringify(then));
     });
 
     it('Fail if game us full',function(){
         given=[{
-            gid: "123",
+            gid: "1423",
             name:"Game",
 	    event: "GameCreated",
             user: "NAME1"
         },
 	{
-	    gid: "123",
+	    gid: "1423",
 	    name: "Game",
 	    event: "GameJoined",
 	    user: "NAME2"
 	}];
         when={
             command:"JoinGame",
-            gid: "123",
+            gid: "1423",
             name:"Game",
             user: "NAME3"
         };
-        then=[];
+        then=[{
+            gid: "1423",
+	    name: "Game",
+            event:"IllegalAction",
+            user: "NAME3"
+	}];
 
-        try {
-	    tictactoeCommandHandler(given).execute(when);
-	    false.should.be(true);
-	} catch(e) {
-	   	
-	}
+        var actualEvents = tictactoeCommandHandler(given).execute(when);
+
+        JSON.stringify(actualEvents).should.be.exactly(JSON.stringify(then));
     });
 });
