@@ -36,6 +36,8 @@ module.exports = function tictactoeCommandHandler(events) {
 	    gameState.winner = undefined;
 	    gameState.board[event.x][event.y] = event.side;
 	    gameState.move++;
+	},
+	"IllegalAction": function(event) {
 	}
     };
 	
@@ -210,7 +212,16 @@ module.exports = function tictactoeCommandHandler(events) {
             if(command === undefined) {
 		throw new Error("Not a valid command option " + cmd.command + ", complete argument: " + JSON.stringify(cmd));
 	    }
-	    return command(cmd);
+	    try {
+	        return command(cmd);
+	    } catch(e) {
+		return [{
+		    gid: cmd.gid,
+		    name: cmd.name,
+                    event: "IllegalAction",
+		    user: cmd.user
+		}];
+	    }
 	}
     };
 };
