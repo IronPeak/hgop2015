@@ -5,7 +5,7 @@ var given = require('../fluid-api/tictactoeFluid').given;
 
 describe('Game draw acceptance test:', function () {
 
-    /*it('Creating Game', function (done) {
+    it('Creating Game', function (done) {
         given(user("TestUser1").createGame("GameDrawTest00").named("fasdfasg"))
 	.expectEvent("GameCreated").byUser("TestUser1").isOk(done);
     });
@@ -95,7 +95,7 @@ describe('Game draw acceptance test:', function () {
 	.and(user("TestUser1").as('X').makeMove(2, 1))
 	.and(user("TestUser2").as('O').makeMove(2, 0))
 	.expectEvent("MoveMade").byUser("TestUser2").isOk(done);
-    });*/
+    });
 
     it('Should be a draw', function (done) {
         given(user("TestUser1").createGame("GameDrawTest10").named("fasdfasg"))

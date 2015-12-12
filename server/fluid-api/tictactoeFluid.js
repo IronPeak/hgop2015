@@ -128,6 +128,7 @@ function given(user) {
 		req.post(w.dest).type('json').send(w.cmd)
 		.end(function(err, res) {
 		    if(err) return done(err);
+		    console.log(w.dest);
 		});
 	    });
 
@@ -139,6 +140,7 @@ function given(user) {
                 if (err) return done(err);
                 res.body.should.be.instanceof(Array);
 		_.each(res.body, function(e) {
+		    console.log(e.event);
 		});
 		matchExpectations(res.body[res.body.length - 1]);
                 done();
