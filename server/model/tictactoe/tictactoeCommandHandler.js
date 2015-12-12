@@ -120,7 +120,7 @@ module.exports = function tictactoeCommandHandler(events) {
 		        x: cmd.x,
 		        y: cmd.y,
 		        side: cmd.side,
-                        event: "GameOver222",
+                        event: "GameOver",
 		        user: cmd.user,
 			winner: cmd.user
 		    }];
