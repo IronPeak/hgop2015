@@ -52,7 +52,7 @@ describe('Game draw acceptance test:', function () {
 
     it('Move 5', function (done) {
         given(user("TestUser1").createGame("GameDrawTest06").named("fasdfasg"))
-	.and(user("TestUser2").joinGame("GameDrawTest06").named("fasdfasg"))
+	.and(user("TestUser2").joinGame("GameDrawTest06"))
 	.and(user("TestUser1").as('X').makeMove(0, 0))
 	.and(user("TestUser2").as('O').makeMove(0, 1))
 	.and(user("TestUser1").as('X').makeMove(0, 2))
@@ -63,6 +63,7 @@ describe('Game draw acceptance test:', function () {
 
     it('Move 6', function (done) {
         given(user("TestUser1").createGame("GameDrawTest07").named("fasdfasg"))
+	.and(user("TestUser2").joinGame("GameDrawTest07"))
 	.and(user("TestUser1").as('X').makeMove(0, 0))
 	.and(user("TestUser2").as('O').makeMove(0, 1))
 	.and(user("TestUser1").as('X').makeMove(0, 2))
@@ -74,6 +75,7 @@ describe('Game draw acceptance test:', function () {
 
     it('Move 7', function (done) {
         given(user("TestUser1").createGame("GameDrawTest08").named("fasdfasg"))
+	.and(user("TestUser2").joinGame("GameDrawTest08"))
 	.and(user("TestUser1").as('X').makeMove(0, 0))
 	.and(user("TestUser2").as('O').makeMove(0, 1))
 	.and(user("TestUser1").as('X').makeMove(0, 2))
@@ -86,6 +88,7 @@ describe('Game draw acceptance test:', function () {
 
     it('Move 8', function (done) {
         given(user("TestUser1").createGame("GameDrawTest09").named("fasdfasg"))
+	.and(user("TestUser2").joinGame("GameDrawTest09"))
 	.and(user("TestUser1").as('X').makeMove(0, 0))
 	.and(user("TestUser2").as('O').makeMove(0, 1))
 	.and(user("TestUser1").as('X').makeMove(0, 2))
