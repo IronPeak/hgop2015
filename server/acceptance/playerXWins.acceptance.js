@@ -13,6 +13,6 @@ describe('Player X wins acceptance test:', function () {
 	.and(user("Hrabbi").as('X').makeMove(1, 2))
 	.and(user("Barilius").as('O').makeMove(0, 2))
 	.and(user("Hrabbi").as('X').makeMove(1, 1))
-	.expectEvent("GameOver").byUser("Hrabbi").atPosition(2, 2).withWinner("Hrabbi").isOk(done);
+	.expectEvent("GameOver").byUser("Hrabbi").atPosition(1, 1).withWinner("Hrabbi").isOk(done);
     });
 });
