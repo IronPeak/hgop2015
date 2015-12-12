@@ -5,7 +5,7 @@ var given = require('../fluid-api/tictactoeFluid').given;
 
 describe('CreateGame acceptance test:', function () {
 
-    it('Should join game', function (done) {
+    it('Should create game', function (done) {
         given(user("HrafnOrri").createGame("CGTestGame1"))
 	.expectEvent("GameCreated").byUser("HrafnOrri").isOk(done);
     });

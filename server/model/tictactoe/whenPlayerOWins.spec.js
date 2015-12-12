@@ -61,6 +61,7 @@ describe('Player O Wins:', function(){
 	    name: "game",
 	    x: 1,
 	    y: 2,
+	    side: 'O',
 	    user: "player2"
 	};
         then=[{

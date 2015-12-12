@@ -1,41 +1,14 @@
 var _ = require('lodash');
+
 module.exports = function tictactoeCommandHandler(events) {
     var gameState = {
-	gid: undefined,
-	move: 0,
-	name: undefined,
-	eventcount: events.length,
-	playerX: undefined,
-	playerO: undefined,
-        board: [['','',''],['','',''],['','','']],
-	gameover: false,
-	winner: undefined
+    	createEvent: events[0],
+    	board: [['','',''],['','',''],['','','']]
     };
 
     var setGameState = {
-	"GameCreated": function(event) {
-	    gameState.gid = event.gid;
-	    gameState.name = event.name;
-	    gameState.playerX = event.user;
-	},
-	"GameJoined": function(event) {
-	    gameState.playerO = event.user;
-	},
 	"MoveMade": function(event) {
 	    gameState.board[event.x][event.y] = event.side;
-	    gameState.move++;
-	},
-	"GameOver": function(event) {
-	    gameState.gameover = true;
-	    gameState.winner = event.winner;
-	    gameState.board[event.x][event.y] = event.side;
-	    gameState.move++;
-	},
-	"GameDraw": function(event) {
-	    gameState.gameover = true;
-	    gameState.winner = undefined;
-	    gameState.board[event.x][event.y] = event.side;
-	    gameState.move++;
 	}
     };
 	
@@ -65,14 +38,21 @@ module.exports = function tictactoeCommandHandler(events) {
 	return false;
     }
 
-    function isGameOver() {
-	return ((gameState.move > 8) || (gameState.gameover === true));
+    function isFull() {
+	for(var x = 0; x < 3; x++) {
+	    for(var y = 0; y < 3; y++) {
+		if(gameState.board[x][y] === '') {
+		    return false;
+		}
+	    }
+	}
+	return true;
     }
 
     var commands = {
 	"CreateGame": function(cmd) {
 	    {
-		if(gameState.eventcount !== 0 ||
+		if(gameState.createEvent !== undefined ||
 		   cmd.name === undefined ||
 		   cmd.user === undefined ||
 		   cmd.gid === undefined) {
@@ -93,9 +73,7 @@ module.exports = function tictactoeCommandHandler(events) {
 	},
 	"JoinGame": function(cmd) {
 	    {
-		if(cmd.user === gameState.playerX ||
-		   cmd.name !== gameState.name ||
-		   gameState.eventcount !== 1 ||
+		if(gameState.createEvent === undefined ||
 		   cmd.name === undefined ||
 		   cmd.user === undefined ||
 		   cmd.gid === undefined) {
@@ -116,9 +94,7 @@ module.exports = function tictactoeCommandHandler(events) {
 	},
 	"MakeMove": function(cmd) {
 	    {
-		if(cmd.name !== gameState.name ||
-		   gameState.eventcount < 2 ||
-		   cmd.name === undefined ||
+		if(cmd.name === undefined ||
 		   cmd.user === undefined ||
 		   cmd.gid === undefined) {
 		    return [{
@@ -128,9 +104,7 @@ module.exports = function tictactoeCommandHandler(events) {
 		    	user: cmd.user
 		    }];
 		}
-		if(gameState.board[cmd.x][cmd.y] !== '' ||
-		  (gameState.playerX !== cmd.user &&
-		   gameState.playerO !== cmd.user)) {
+		if(gameState.board[cmd.x][cmd.y] !== '') {
 		    return [{
 		    	gid: cmd.gid,
 		    	name: cmd.name,
@@ -138,13 +112,7 @@ module.exports = function tictactoeCommandHandler(events) {
 		    	user: cmd.user
 		    }];
 		}
-		if(cmd.user === gameState.playerX) {
-		    cmd.side = 'X';
-		} else {
-		    cmd.side = 'O';
-		}
 		gameState.board[cmd.x][cmd.y] = cmd.side;
-		gameState.move++;
 		if(isWinner(cmd.side) === true) {
 		    return [{
 		        gid: cmd.gid,
@@ -157,7 +125,7 @@ module.exports = function tictactoeCommandHandler(events) {
 			winner: cmd.user
 		    }];
 		}
-		if(isGameOver() === true) {
+		if(isFull() === true) {
 		    return [{
 		        gid: cmd.gid,
 		        name: cmd.name,

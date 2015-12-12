@@ -180,6 +180,10 @@ function user(username) {
 	    this.cmd.x = x;
 	    this.cmd.y = y;
 	    return api;
+	},
+	as: function(side) {
+	    this.cmd.side = side;
+	    return api;
 	}
     };
     return api;

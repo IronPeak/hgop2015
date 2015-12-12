@@ -33,6 +33,7 @@ describe('MakeMove command:', function(){
             name:"TheFirstGame",
 	    x: 1,
 	    y: 1,
+	    side: 'O',
             user: "Bara"
         };
         then=[{
@@ -50,28 +51,9 @@ describe('MakeMove command:', function(){
         JSON.stringify(actualEvents).should.be.exactly(JSON.stringify(then));
     });
 
-    it('Can not make first move',function(){
-        when={
-            command:"MakeMove",
-            gid: "1235",
-            name:"TheFirstGame",
-	    x: 1,
-	    y: 1,
-            user: "Bara"
-        };
-        then=[];
-
-        try {
-	    tictactoeCommandHandler(given).execute(when);
-	    false.should.be(true);
-	} catch(e) {
-	   	
-	}
-    });
-
     it('Can not make move in filled spot',function(){
         given.push({
-            gid: "1235",
+            gid: "dfas",
 	    name: "TheFirstGame",
 	    x: 0,
 	    y: 0,
@@ -81,48 +63,23 @@ describe('MakeMove command:', function(){
         });
         when={
             command:"MakeMove",
-            gid: "1235",
+            gid: "dfas",
             name:"TheFirstGame",
 	    x: 0,
 	    y: 0,
+	    side: 'O',
             user: "Bara"
         };
-        then=[];
-
-        try {
-	    tictactoeCommandHandler(given).execute(when);
-	    false.should.be(true);
-	} catch(e) {
-	   	
-	}
-    });
-
-    it('Can not make move outside board',function(){
-        given.push({
-            gid: "1235",
+        then=[{
+            gid: "dfas",
 	    name: "TheFirstGame",
-	    x: 0,
-	    y: 0,
-	    side: 'X',
-            event: "MoveMade",
-	    user: "Hrafn"
-        });
-        when={
-            command:"MakeMove",
-            gid: "1235",
-            name:"TheFirstGame",
-	    x: 3,
-	    y: 2,
-            user: "Bara"
-        };
-        then=[];
+            event: "IllegalMove",
+	    user: "Bara"
+        }];
 
-        try {
-	    tictactoeCommandHandler(given).execute(when);
-	    false.should.be(true);
-	} catch(e) {
-	   	
-	}
+        var actualEvents = tictactoeCommandHandler(given).execute(when);
+
+        JSON.stringify(actualEvents).should.be.exactly(JSON.stringify(then));
     });
 
     it('Can make second move',function(){
@@ -159,6 +116,7 @@ describe('MakeMove command:', function(){
             name:"TheFirstGame",
 	    x: 1,
 	    y: 2,
+	    side: 'O',
             user: "Bara"
         };
         then=[{

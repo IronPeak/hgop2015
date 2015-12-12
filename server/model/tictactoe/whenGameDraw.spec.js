@@ -85,6 +85,7 @@ describe('GameDraw:', function(){
 	    name: "game",
 	    x: 1,
 	    y: 2,
+	    side: 'X',
 	    user: "player1"
 	};
         then=[{
@@ -184,6 +185,7 @@ describe('GameDraw:', function(){
 	    name: "game",
 	    x: 2,
 	    y: 2,
+	    side: 'X',
 	    user: "player1"
 	};
         then=[{
