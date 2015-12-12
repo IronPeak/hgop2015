@@ -26,7 +26,10 @@ function given(user) {
 
 	expectingpos: false,
 	x: undefined,
-	y: undefined
+	y: undefined,
+
+	expectingside: false,
+	side: undefined
     };
 
     var cmdwrap = [];
@@ -88,6 +91,9 @@ function given(user) {
 	    should(result.x).eql(expectations.x);
 	    should(result.y).eql(expectations.y);
 	}
+	if(expectations.expectingside === true) {
+	    should(result.side).eql(expectations.side);
+	}
     }
 
     var api = {
@@ -118,6 +124,11 @@ function given(user) {
 	    expectations.expectingpos = true;
 	    expectations.x = x;
 	    expectations.y = y;
+	    return api;
+	},
+	as: function(side) {
+	    expectations.expectingside = true;
+	    expectations.side = side;
 	    return api;
 	},
 	isOk: function(done) {
