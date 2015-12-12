@@ -52,7 +52,7 @@ describe('Game draw acceptance test:', function () {
 
     it('Move 5', function (done) {
         given(user("TestUser1").createGame("GameDrawTest06").named("fasdfasg"))
-	.and(user("TestUser2").joinGame("GameDrawTest06"))
+	.and(user("TestUser2").joinGame("GameDrawTest06").named("fasdfasg"))
 	.and(user("TestUser1").as('X').makeMove(0, 0))
 	.and(user("TestUser2").as('O').makeMove(0, 1))
 	.and(user("TestUser1").as('X').makeMove(0, 2))
