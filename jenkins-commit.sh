@@ -26,13 +26,6 @@ if [ $buildexitcode != 0 ]; then
   exit $buildexitcode
 fi
 
-docker push ironpeak/tictactoe
-pushexitcode=$?
-if [ $pushexitcode == 0 ]; then
-  echo "Docker push exited with error code $pushexitcode"
-  exit $pushexitcode
-fi
-
 echo 'Finished jenkins shell script'
 
 exit 0

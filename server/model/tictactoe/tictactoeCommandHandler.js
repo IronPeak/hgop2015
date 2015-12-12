@@ -113,14 +113,14 @@ module.exports = function tictactoeCommandHandler(events) {
 		    }];
 		}
 		gameState.board[cmd.x][cmd.y] = cmd.side;
-		if(isWinner(cmd.side) === true) {
+		if(isWinner(cmd.side)) {
 		    return [{
 		        gid: cmd.gid,
 		        name: cmd.name,
 		        x: cmd.x,
 		        y: cmd.y,
 		        side: cmd.side,
-                        event: "GameOver",
+                        event: "GameOver222",
 		        user: cmd.user,
 			winner: cmd.user
 		    }];
