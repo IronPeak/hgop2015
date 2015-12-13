@@ -1,49 +1,49 @@
 var tictactoeCommandHandler = require('./tictactoeCommandHandler');
 
-describe('MakeMove command:', function(){
+describe('MakeMove command:', function() {
     var given, when, then;
 
-    beforeEach(function(){
-        given=[{
+    beforeEach(function() {
+        given = [{
             gid: "1235",
-            name:"TheFirstGame",
-	    event: "GameCreated",
-            user : "Hrafn"
-        },{
-	    gid: "1235",
-            name:"TheFirstGame",
-            event:"GameJoined",
-	    user: "Bara"
+            name: "TheFirstGame",
+            event: "GameCreated",
+            user: "Hrafn"
+        }, {
+            gid: "1235",
+            name: "TheFirstGame",
+            event: "GameJoined",
+            user: "Bara"
         }];
     });
 
-    it('Should make a move',function(){
+    it('Should make a move', function() {
         given.push({
             gid: "1235",
-	    name: "TheFirstGame",
-	    x: 0,
-	    y: 0,
-	    side: 'X',
+            name: "TheFirstGame",
+            x: 0,
+            y: 0,
+            side: 'X',
             event: "MoveMade",
-	    user: "Hrafn"
+            user: "Hrafn"
         });
-        when={
-            command:"MakeMove",
+        when = {
+            command: "MakeMove",
             gid: "1235",
-            name:"TheFirstGame",
-	    x: 1,
-	    y: 1,
-	    side: 'O',
+            name: "TheFirstGame",
+            x: 1,
+            y: 1,
+            side: 'O',
             user: "Bara"
         };
-        then=[{
+        then = [{
             gid: "1235",
-	    name: "TheFirstGame",
-	    x: 1,
-	    y: 1,
-	    side: 'O',
+            name: "TheFirstGame",
+            x: 1,
+            y: 1,
+            side: 'O',
             event: "MoveMade",
-	    user: "Bara"
+            user: "Bara"
         }];
 
         var actualEvents = tictactoeCommandHandler(given).execute(when);
@@ -51,30 +51,30 @@ describe('MakeMove command:', function(){
         JSON.stringify(actualEvents).should.be.exactly(JSON.stringify(then));
     });
 
-    it('Can not make move in filled spot',function(){
+    it('Can not make move in filled spot', function() {
         given.push({
             gid: "dfas",
-	    name: "TheFirstGame",
-	    x: 0,
-	    y: 0,
-	    side: 'X',
+            name: "TheFirstGame",
+            x: 0,
+            y: 0,
+            side: 'X',
             event: "MoveMade",
-	    user: "Hrafn"
+            user: "Hrafn"
         });
-        when={
-            command:"MakeMove",
+        when = {
+            command: "MakeMove",
             gid: "dfas",
-            name:"TheFirstGame",
-	    x: 0,
-	    y: 0,
-	    side: 'O',
+            name: "TheFirstGame",
+            x: 0,
+            y: 0,
+            side: 'O',
             user: "Bara"
         };
-        then=[{
+        then = [{
             gid: "dfas",
-	    name: "TheFirstGame",
+            name: "TheFirstGame",
             event: "IllegalMove",
-	    user: "Bara"
+            user: "Bara"
         }];
 
         var actualEvents = tictactoeCommandHandler(given).execute(when);
@@ -82,52 +82,52 @@ describe('MakeMove command:', function(){
         JSON.stringify(actualEvents).should.be.exactly(JSON.stringify(then));
     });
 
-    it('Can make second move',function(){
+    it('Can make second move', function() {
         given.push({
             gid: "1235",
-	    name: "TheFirstGame",
-	    x: 0,
-	    y: 0,
-	    side: 'X',
+            name: "TheFirstGame",
+            x: 0,
+            y: 0,
+            side: 'X',
             event: "MoveMade",
-	    user: "Hrafn"
+            user: "Hrafn"
         });
-	given.push({
+        given.push({
             gid: "1235",
-	    name: "TheFirstGame",
-	    x: 1,
-	    y: 1,
-	    side: 'O',
+            name: "TheFirstGame",
+            x: 1,
+            y: 1,
+            side: 'O',
             event: "MoveMade",
-	    user: "Hrafn"
+            user: "Hrafn"
         });
-	given.push({
+        given.push({
             gid: "1235",
-	    name: "TheFirstGame",
-	    x: 2,
-	    y: 2,
-	    side: 'X',
+            name: "TheFirstGame",
+            x: 2,
+            y: 2,
+            side: 'X',
             event: "MoveMade",
-	    user: "Hrafn"
+            user: "Hrafn"
         });
-        when={
-            command:"MakeMove",
+        when = {
+            command: "MakeMove",
             gid: "1235",
-            name:"TheFirstGame",
-	    x: 1,
-	    y: 2,
-	    side: 'O',
+            name: "TheFirstGame",
+            x: 1,
+            y: 2,
+            side: 'O',
             user: "Bara"
         };
-        then=[{
-	    gid: "1235",
-	    name: "TheFirstGame",
-	    x: 1,
-	    y: 2,
-	    side: 'O',
+        then = [{
+            gid: "1235",
+            name: "TheFirstGame",
+            x: 1,
+            y: 2,
+            side: 'O',
             event: "MoveMade",
-	    user: "Bara"
-	}];
+            user: "Bara"
+        }];
 
         var actualEvents = tictactoeCommandHandler(given).execute(when);
 
