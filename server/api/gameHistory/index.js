@@ -4,13 +4,12 @@ var express = require('express');
 
 var router = express.Router();
 
+module.exports = function(eventStore) {
+    var controller = require('./gameHistory.controller')(eventStore);
 
-module.exports = function(eventStore){
-  var controller = require('./gameHistory.controller')(eventStore);
+    router.get('/:gid', controller.index);
 
-  router.get('/:gid', controller.index);
-
-  return {
-    router: router
-  }
+    return {
+        router: router
+    }
 };
