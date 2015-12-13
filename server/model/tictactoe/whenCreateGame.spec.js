@@ -76,7 +76,7 @@ describe('CreateGame command:', function() {
         };
         then = [{
             gid: "51617",
-            name: undefined,
+            name: "TheFirstGame",
             event: "IllegalAction",
             user: "TestPlayer"
         }];
