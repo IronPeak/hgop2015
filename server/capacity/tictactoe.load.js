@@ -3,7 +3,7 @@ var given = require('../fluid-api/tictactoeFluid').given;
 
 describe('Capacity Tests:', function() {
 
-    it('Should play 1000 games in 5 seconds.', function(done) {
+    it('Should play 1000 games in 6 seconds.', function(done) {
 
 	var startTime = new Date().getTime();
         var gamesToPlay = 1000;
