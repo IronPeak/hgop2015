@@ -31,7 +31,7 @@ describe('Capacity Tests:', function() {
                 .and(user("TestUser2").as('O').makeMove(2, 0))
                 .and(user("TestUser1").as('X').makeMove(2, 2))
                 .expectEvent("GameDraw").byUser("TestUser1").isOk(QED);*/
-	    setTimeOut(done, 100);
+	    setTimeout(done, 100);
         }
     });
 });
