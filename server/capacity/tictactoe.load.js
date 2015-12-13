@@ -1,26 +1,31 @@
 var user = require('../fluid-api/tictactoeFluid').user;
 var given = require('../fluid-api/tictactoeFluid').given;
 
-it('Should play 1000 games in x seconds.', function (done) {
-  var doneCount = 0;
-  var gamesToPlay = 1000;
-  var x = 6;
+it('Should play 1000 games in 5 seconds.', function (done) {
+    var doneCount = 0;
+    var gamesToPlay = 1000;
+    var x = 5;
 
-  this.timeout(x * 1000);
+    this.timeout(x * 1000);
 
-  var QED = function () {
-    if (gamesToPlay === ++doneCount) {
-      done();
+    var QED = function () {
+        if (gamesToPlay === ++doneCount) {
+            done();
+        }
+    };
+
+    for (var gid = 0; gid < gamesToPlay; gid++) {
+        given(user("TestUser1").createGame("CapacityTest" + gid).named("fasdfasg"))
+	.and(user("TestUser2").joinGame("CapacityTest" + gid))
+	.and(user("TestUser1").as('X').makeMove(0, 0))
+	.and(user("TestUser2").as('O').makeMove(0, 1))
+	.and(user("TestUser1").as('X').makeMove(0, 2))
+	.and(user("TestUser2").as('O').makeMove(1, 1))
+	.and(user("TestUser1").as('X').makeMove(1, 0))
+	.and(user("TestUser2").as('O').makeMove(1, 2))
+	.and(user("TestUser1").as('X').makeMove(2, 1))
+	.and(user("TestUser2").as('O').makeMove(2, 0))
+	.and(user("TestUser1").as('X').makeMove(2, 2))
+	.expectEvent("GameDraw").byUser("TestUser1").isOk(QED);
     }
-  };
-
-  for (var gameId = 0; gameId < gamesToPlay; gameId++) {
-    /*
-    given(user("TestUserOne").createsGame("" + gameId))
-
-      ...play game to end...
-
-      .expect("GameCreated").isOk(QED);
-    */
-  }
 });
