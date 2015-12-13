@@ -20,7 +20,7 @@ fi
 
 grunt mochaTest:load
 capacityexitcode=$?
-if [ $acceptanceexitcode != 0 ]; then
+if [ $capacityexitcode != 0 ]; then
   echo "Capacity tests exited with error code $capacityexitcode"
   exit $capacityexitcode
 fi
