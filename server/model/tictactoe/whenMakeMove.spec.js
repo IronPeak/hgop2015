@@ -17,6 +17,31 @@ describe('MakeMove command:', function() {
         }];
     });
 
+    it('Should make first move', function() {
+        when = {
+            command: "MakeMove",
+            gid: "1235",
+            name: "TheFirstGame",
+            x: 1,
+            y: 1,
+            side: 'X',
+            user: "Hrafn"
+        };
+        then = [{
+            gid: "1235",
+            name: "TheFirstGame",
+            x: 1,
+            y: 1,
+            side: 'X',
+            event: "MoveMade",
+            user: "Hrafn"
+        }];
+
+        var actualEvents = tictactoeCommandHandler(given).execute(when);
+
+        JSON.stringify(actualEvents).should.be.exactly(JSON.stringify(then));
+    });
+
     it('Should make a move', function() {
         given.push({
             gid: "1235",
@@ -53,7 +78,7 @@ describe('MakeMove command:', function() {
 
     it('Can not make move in filled spot', function() {
         given.push({
-            gid: "dfas",
+            gid: "1235",
             name: "TheFirstGame",
             x: 0,
             y: 0,
@@ -63,7 +88,7 @@ describe('MakeMove command:', function() {
         });
         when = {
             command: "MakeMove",
-            gid: "dfas",
+            gid: "1235",
             name: "TheFirstGame",
             x: 0,
             y: 0,
@@ -71,7 +96,7 @@ describe('MakeMove command:', function() {
             user: "Bara"
         };
         then = [{
-            gid: "dfas",
+            gid: "1235",
             name: "TheFirstGame",
             event: "IllegalMove",
             user: "Bara"
@@ -82,7 +107,7 @@ describe('MakeMove command:', function() {
         JSON.stringify(actualEvents).should.be.exactly(JSON.stringify(then));
     });
 
-    it('Can make second move', function() {
+    it('Player O can make a second move', function() {
         given.push({
             gid: "1235",
             name: "TheFirstGame",

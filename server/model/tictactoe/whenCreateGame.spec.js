@@ -7,12 +7,12 @@ describe('CreateGame command:', function() {
         given = [];
         when = {
             command: "CreateGame",
-            gid: "1235",
+            gid: "1234124",
             name: "TheFirstGame",
             user: "TestPlayer"
         };
         then = [{
-            gid: "1235",
+            gid: "1234124",
             name: "TheFirstGame",
             event: "GameCreated",
             user: "TestPlayer"
@@ -30,70 +30,59 @@ describe('CreateGame command:', function() {
             name: "TheFirstGame",
             user: "TestPlayer"
         };
-        then = [];
+        then = [{
+            gid: undefined,
+            name: "TheFirstGame",
+            event: "IllegalAction",
+            user: "TestPlayer"
+        }];
 
-        try {
-            tictactoeCommandHandler(given).execute(when);
-            false.should.be(true);
-        } catch (e) {
+        var actualEvents = tictactoeCommandHandler(given).execute(when);
 
-        }
+        JSON.stringify(actualEvents).should.be.exactly(JSON.stringify(then));
     });
 
     it('Must include a name', function() {
         given = [];
         when = {
             command: "CreateGame",
-            gid: "1235",
+            gid: "516124",
             user: "TestPlayer"
         };
-        then = [];
-
-        try {
-            tictactoeCommandHandler(given).execute(when);
-            false.should.be(true);
-        } catch (e) {
-
-        }
-    });
-
-    it('Must include a playerX', function() {
-        given = [];
-        when = {
-            command: "CreateGame",
-            gid: "1235",
-            name: "TheFirstGame",
+        then = [{
+            gid: "516124",
+            name: undefined,
+            event: "IllegalAction",
             user: "TestPlayer"
-        };
-        then = [];
+        }];
 
-        try {
-            tictactoeCommandHandler(given).execute(when);
-            false.should.be(true);
-        } catch (e) {
+        var actualEvents = tictactoeCommandHandler(given).execute(when);
 
-        }
+        JSON.stringify(actualEvents).should.be.exactly(JSON.stringify(then));
     });
 
     it('Can only execute once', function() {
         given = [{
-            gid: "1235",
+            gid: "51617",
             name: "TheFirstGame",
             event: "GameCreated",
             user: "TestPlayer"
         }];
         when = {
             command: "CreateGame",
-            gid: "1235",
+            gid: "51617",
             name: "TheFirstGame",
             user: "TestPlayer"
         };
-        then = [];
-        try {
-            tictactoeCommandHandler(given).execute(when);
-            false.should.be(true);
-        } catch (e) {
+        then = [{
+            gid: "51617",
+            name: undefined,
+            event: "IllegalAction",
+            user: "TestPlayer"
+        }];
 
-        }
+        var actualEvents = tictactoeCommandHandler(given).execute(when);
+
+        JSON.stringify(actualEvents).should.be.exactly(JSON.stringify(then));
     });
 });
