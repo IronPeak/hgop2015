@@ -2,17 +2,50 @@ var _ = require('lodash');
 
 module.exports = function tictactoeCommandHandler(events) {
     var gameState = {
-        createEvent: events[0],
+        gid: undefined,
+        move: 0,
+        name: undefined,
+        eventcount: 0,
+        playerX: undefined,
+        playerO: undefined,
         board: [
             ['', '', ''],
             ['', '', ''],
             ['', '', '']
-        ]
+        ],
+        gameover: false,
+        winner: undefined
     };
 
     var setGameState = {
+        "GameCreated": function(event) {
+            gameState.gid = event.gid;
+            gameState.name = event.name;
+            gameState.playerX = event.user;
+            gameState.eventcount++;
+        },
+        "GameJoined": function(event) {
+            gameState.playerO = event.user;
+            gameState.eventcount++;
+        },
         "MoveMade": function(event) {
             gameState.board[event.x][event.y] = event.side;
+            gameState.move++;
+            gameState.eventcount++;
+        },
+        "GameOver": function(event) {
+            gameState.gameover = true;
+            gameState.winner = event.winner;
+            gameState.board[event.x][event.y] = event.side;
+            gameState.move++;
+            gameState.eventcount++;
+        },
+        "GameDraw": function(event) {
+            gameState.gameover = true;
+            gameState.winner = undefined;
+            gameState.board[event.x][event.y] = event.side;
+            gameState.move++;
+            gameState.eventcount++;
         }
     };
 
@@ -56,7 +89,7 @@ module.exports = function tictactoeCommandHandler(events) {
     var commands = {
         "CreateGame": function(cmd) {
             {
-                if (gameState.createEvent !== undefined ||
+                if (gameState.eventcount !== 0 ||
                     cmd.name === undefined ||
                     cmd.user === undefined ||
                     cmd.gid === undefined) {
@@ -77,7 +110,8 @@ module.exports = function tictactoeCommandHandler(events) {
         },
         "JoinGame": function(cmd) {
             {
-                if (gameState.createEvent === undefined ||
+                if (gameState.playerX === undefined ||
+                    gameState.eventcount !== 1 ||
                     cmd.name === undefined ||
                     cmd.user === undefined ||
                     cmd.gid === undefined) {
@@ -100,7 +134,8 @@ module.exports = function tictactoeCommandHandler(events) {
             {
                 if (cmd.name === undefined ||
                     cmd.user === undefined ||
-                    cmd.gid === undefined) {
+                    cmd.gid === undefined ||
+                    cmd.side === undefined) {
                     return [{
                         gid: cmd.gid,
                         name: cmd.name,

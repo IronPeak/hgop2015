@@ -64,11 +64,11 @@ function given(user) {
             user.cmd.name = properties.name;
             if (user.name === properties.playerX) {
                 user.cmd.user = properties.playerX;
-                user.cmd.command = "MakeMove";
+                user.cmd.side = 'X';
             }
             if (user.name === properties.playerO) {
                 user.cmd.user = properties.playerO;
-                user.cmd.command = "MakeMove";
+                user.cmd.side = 'O';
             }
             cmdwrap.push({
                 dest: "/api/makeMove",
