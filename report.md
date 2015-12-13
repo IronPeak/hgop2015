@@ -31,3 +31,14 @@ Til þess að hægt sé að koma hugbúnaðinum í drefingu eru nokkrar kröfur 
 
 ## Auka
 Í verkefnum utan skóla væri drefingar þjóninn ekki á þróunar vélinni en hér er þetta gert upp á þægindi í verkefna vinnu, þar sem ekki er búst við því að það séu neinir notendur á hugbúnaðinum.
+
+# Capacity Tests
+
+Created a capacity test that I run on it's own stage in Jenkins, the test plays a 1000 games to a draw.
+In most runs of the capacity test, it took 3,6 seconds to complete a 1000 games with the highest taking 4,6 seconds. As a result my capacity test players a 1000 games and succeeds if the test run in less then 6 seconds.
+
+Both NodeJS and the capacity tests are running in parallel of each other (they are not even on the same VM so it would make no sense for them to run asynchronously).
+
+The capacity tests them self are run asynchronously since we want each capacity test to run idempotent of each other and adding a test would put more strain on the system if the were running in parallel meaning other test would have to be updated.
+
+NodeJS is a single threaded and asynchronous by nature, so it's processing each request from the capacity test before moving on to the next one.
