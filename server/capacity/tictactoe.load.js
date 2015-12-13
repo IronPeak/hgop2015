@@ -2,12 +2,15 @@ var user = require('../fluid-api/tictactoeFluid').user;
 var given = require('../fluid-api/tictactoeFluid').given;
 
 describe('Capacity Tests:', function() {
-    it('Should play 1000 games in 3 seconds.', function(done) {
-        var doneCount = 0;
-        var gamesToPlay = 1000;
-        var x = 1;
 
-        this.timeout(x * 1000);
+    var gamesToPlay = 1000;
+    var x = 1;
+
+    this.timeout(x * 1000);
+
+    it('Should play' + gamesToPlay + 'games in ' + x + ' seconds.', function(done) {
+
+        var doneCount = 0;
 
         var QED = function() {
             if (gamesToPlay === ++doneCount) {
