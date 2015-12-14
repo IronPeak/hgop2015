@@ -3,18 +3,23 @@ var given = require('../fluid-api/tictactoeFluid').given;
 
 describe('Capacity Tests:', function() {
 
-    it('Should play 1000 games in 100 seconds.', function(done) {
+    it('Should play 1000 games in 125 seconds.', function(done) {
 
         var gamesToPlay = 1000;
-        var x = 200;
+        var x = 125;
 
 	this.timeout(x * 1000);
 
+	var failed = false;
         var doneCount = 0;
 
         var QED = function(err) {
-	    if (err) done(err);
-            if (gamesToPlay === ++doneCount) {
+	    if (err && !failed) {
+		failed = true;
+	        done(err);
+		return;
+	    }
+            if (!failed && gamesToPlay === ++doneCount) {
 		done();
             }
         };
