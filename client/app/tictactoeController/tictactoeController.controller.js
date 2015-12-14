@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('tictactoeApp')
-  .controller('TictactoeController', function ($scope, $http, gameState, guid, $location, $interval) {
+  .controller('TictactoeController', function ($scope, $http, gameState, guid, $location) {
 
     $scope.gameState = gameState();
 
