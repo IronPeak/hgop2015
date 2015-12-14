@@ -132,28 +132,36 @@ function given(user) {
             return api;
         },
         isOk: function(done) {
-
-            var req = request(acceptanceUrl);
-
-            _.each(cmdwrap, function(w) {
-                req.post(w.dest).type('json').send(w.cmd)
-                    .end(function(err, res) {
-                        if (err) return done(err);
-                    });
-            });
-
-            request(acceptanceUrl)
-                .get('/api/gameHistory/' + properties.gid)
-                .expect(200)
-                .expect('Content-Type', /json/)
-                .end(function(err, res) {
-                    if (err) return done(err);
-                    res.body.should.be.instanceof(Array);
-                    matchExpectations(res.body[res.body.length - 1]);
-                    done();
-                });
+	    sendCommands(cmdwrap, 0, done);
         }
     };
+
+    function sendCommands(cmdwrap, pos, done) {
+	if(cmdwrap.length === pos) return confirmTest(done);
+	var dest = cmdwrap[pos].dest;
+	var cmd = cmdwrap[pos].cmd;
+	request(acceptanceUrl)
+	    .post(dest)
+	    .type('json')
+	    .send(cmd)
+            .end(function(err, res) {
+                if (err) return done(err);
+		sendCommands(cmdwrap, ++pos, done);
+            });
+    }
+
+    function confirmTest(done) {
+	request(acceptanceUrl)
+            .get('/api/gameHistory/' + properties.gid)
+            .expect(200)
+            .expect('Content-Type', /json/)
+            .end(function(err, res) {
+                if (err) return done(err);
+                res.body.should.be.instanceof(Array);
+                matchExpectations(res.body[res.body.length - 1]);
+                done();
+            });
+    }
 
     gameApi[user.cmd.command](user);
     return api;
