@@ -34,7 +34,7 @@ Til þess að hægt sé að koma hugbúnaðinum í drefingu eru nokkrar kröfur 
 
 # Capacity Tests
 
-Created a capacity test that I run on it's own stage in Jenkins, the test plays a 1000 games to a draw.
-In most runs of the capacity test, it took 80 seconds to complete a 1000 games with the highest taking 115 seconds. As a result my capacity test players a 1000 games and succeeds if the test run in less then 200 seconds.
+Created a capacity test that I run on it's own stage in Jenkins, the test plays a 100 games to a draw.
+In most runs of the capacity test, it took 8 seconds to complete a 100 games with the highest taking 12 seconds. As a result my capacity test players a 100 games and succeeds if the test run in less then 12 seconds.
 
-Both NodeJS and the capacity tests are running in asynchronous that is each command is sent to the server at a time and the next command isn't sent until the server sends back the results of the previous command.
+Each of the 100 test game that is played by the capacity test is running in parallel of each other, but the commands of each tests are sent to the server asynchronously so each command has to be finished by the server before the next one is sent. The server will receive commands from the test games and put them on the event queue to be processed one at a time in order of arrival. 

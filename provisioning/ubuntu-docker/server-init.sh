@@ -1,3 +1,5 @@
+# If you want to setup your own ubuntu docker container, this script may work for you.
+
 apt-get update
 apt-get install docker.io
 source /etc/bash_completion.d/docker.io
@@ -7,3 +9,4 @@ apt-get update
 apt-get install lxc-docker
 curl -sSL https://get.docker.com/ubuntu/ | sudo sh
 service docker start
+
