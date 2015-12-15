@@ -35,7 +35,7 @@ angular.module('tictactoeApp')
               gameState.gameDraw = true;
             }
           };
-          console.debug('Mutating with events', events);
+
           _.each(events, function (ev) {
             if(!ev) {
               return;
