@@ -38,6 +38,7 @@ cat > ./dist/public/version.html << _EOF_
 _EOF_
 
 cp ./Dockerfile ./dist/
+mv 'TESTS-Firefox_38.0.0_(Linux_0.0.0).xml' ./dist/
 
 cd dist
 npm install --production
@@ -47,7 +48,7 @@ if [ $npmexitcode != 0 ]; then
     exit $npmexitcode
 fi
 
-echo Building docker image
+echo "Building docker image"
 sudo service docker start
 docker build -t ironpeak/tictactoe:$GIT_COMMIT .
 buildexitcode=$?
@@ -56,17 +57,12 @@ if [ $buildexitcode != 0 ]; then
     exit $buildexitcode
 fi
 
+echo "Pushing docker image"
 docker push ironpeak/tictactoe:$GIT_COMMIT
 pushexitcode=$?
 if [ $pushexitcode != 0 ]; then
     echo "docker push exited with error code $pushexitcode"
     exit $pushexitcode
-fi
-
-rc=$?
-if [[ $rc != 0 ]] ; then
-    echo "Docker build failed " $rc
-    exit $rc
 fi
 
 echo "Done"
