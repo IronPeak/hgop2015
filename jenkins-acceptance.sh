@@ -3,6 +3,7 @@
 export PATH=/usr/local/bin:$PATH;
 export DISPLAY=:0
 export ACCEPTANCE_URL=192.168.50.4:8080
+GIT_UPSTREAM_HASH=$(<dist/githash.txt)
 
 npm install
 npmexitcode=$?
