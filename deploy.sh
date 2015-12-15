@@ -3,7 +3,7 @@
 echo 'Starting deployment'
 
 echo -e '\nPulling from docker'
-ssh vagrant@192.168.50.4 "docker pull ironpeak/tictactoe:$"
+ssh vagrant@192.168.50.4 "docker pull ironpeak/tictactoe:$GIT_COMMIT"
 pulldocker=$?
 if [ $pulldocker != 0 ]; then
     echo "docker pull failed with error code $pulldocker"
