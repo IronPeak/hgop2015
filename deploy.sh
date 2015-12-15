@@ -11,12 +11,7 @@ if [ $pulldocker != 0 ]; then
 fi
 
 echo -e '\nKilling and removing current'
-ssh vagrant@192.168.50.4 "(if [ ! -z $(docker ps -a -f name=production$2 | grep production$2) ]; then
-                            echo -e '\nKilling current'
-                            docker kill production$2
-                            echo -e '\nRemoving old'
-                            docker rm production$2
-                          fi)"
+ssh vagrant@192.168.50.4 "(docker kill production$2; docker rm production$2;)"
 killdocker=$?
 if [ $killdocker != 0 ]; then
     echo "docker kill & remove failed with error code $killdocker"
