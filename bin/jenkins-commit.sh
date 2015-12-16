@@ -19,7 +19,7 @@ if [ $bowerexitcode != 0 ]; then
   exit $bowerexitcode
 fi
 
-./dockerbuild.sh
+./bin/dockerbuild.sh
 buildexitcode=$?
 if [ $buildexitcode != 0 ]; then
   echo "Dockerbuild exited with error code $buildexitcode"

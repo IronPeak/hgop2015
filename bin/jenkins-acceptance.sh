@@ -19,7 +19,7 @@ if [ $bowerexitcode != 0 ]; then
   exit $bowerexitcode
 fi
 
-./deploy.sh $GIT_UPSTREAM_HASH 8080
+./bin/dockerdeploy.sh $GIT_UPSTREAM_HASH 8080
 deployexitcode=$?
 if [ $deployexitcode != 0 ]; then
   echo "deploy exited with error code $deployexitcode"
