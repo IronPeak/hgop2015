@@ -12,11 +12,6 @@ fi
 
 echo -e '\nKilling and removing current'
 ssh vagrant@192.168.50.4 "(docker kill production$2; docker rm production$2;)"
-killdocker=$?
-if [ $killdocker != 0 ]; then
-    echo "docker kill & remove failed with error code $killdocker"
-    exit $killdocker
-fi
 
 echo -e '\nDeploying'
 ssh vagrant@192.168.50.4 "docker run -p $2:8080 -d -e NODE_ENV=production --name production$2 ironpeak/tictactoe:$1"
