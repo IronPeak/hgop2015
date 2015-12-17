@@ -7,7 +7,7 @@ describe('Controller: JoinGameCtrl', function () {
 
   beforeEach(function(){
     module(function ($provide) {
-      var guids=['987', '1234'];
+      var guids=['123141'];
 
       $provide.value('guid', function () {
         return guids.pop();
@@ -26,7 +26,7 @@ describe('Controller: JoinGameCtrl', function () {
     httpBackend = $httpBackend;
     location = $location;
 
-    $state.params.gameId = '123';
+    $state.params.gid = '12312354';
 
     scope = $rootScope.$new();
     JoinGameCtrl = $controller('JoinGameCtrl', {
@@ -36,31 +36,30 @@ describe('Controller: JoinGameCtrl', function () {
 
   it('should ask to join game if game id already in scope, and assign me to O', function () {
     httpBackend.expectGET('/api/gameHistory/123').respond( [{
+      gid: '12312354',
+      name: 'SQL',
       event: 'GameCreated',
-      name:'Game Number one',
-      gameId : '123',
-      id : '6543'
+      user: 'BobbyTables'
     }]);
     httpBackend.expectGET('app/createGame/createGame.html').respond('');
 
     httpBackend.flush();
 
     httpBackend.expectPOST('/api/joinGame/', {
-      id: '1234',
-      gameId: '123',
-      comm: 'JoinGame',
-      user: {
-        userName: 'Gummi',
-        side: 'O'
-      },
-      timeStamp: '2014-12-02T11:29:29'
-    }).respond([
-        {event: 'GameJoined'}
-      ]
+      command: 'JoinGame',
+      gid: '12312354',
+      name: 'SQL',
+      user: 'DropBobby'
+    }).respond([{
+	gid: '12312354',
+        name: 'SQL',
+	event: 'GameJoined',
+        user: 'DropBobby'
+      }]
     );
 
 
-    scope.userName = 'Gummi';
+    scope.user = 'DropBobby';
 
     scope.joinGame();
 
@@ -69,8 +68,8 @@ describe('Controller: JoinGameCtrl', function () {
     httpBackend.flush();
 
 
-    expect(location.search().gameSide).toBe('O');
-    expect(location.search().gameId).toBe('123');
+    expect(location.search().side).toBe('O');
+    expect(location.search().gid).toBe('12312354');
     expect(location.path()).toBe('/tictactoe');
   });
 });

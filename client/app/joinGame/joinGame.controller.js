@@ -10,25 +10,22 @@ angular.module('tictactoeApp')
     };
 
     $scope.gameState = gameState();
-//    var gameId = $location.search().gameId;
 
-    thenHandleEvents($http.get('/api/gameHistory/' + $state.params.gameId));
+    thenHandleEvents($http.get('/api/gameHistory/' + $state.params.gid));
 
     $scope.joinGame = function () {
-      var user = {'userName': $scope.userName, side: 'O'};
       var joinPostPromise = $http.post('/api/joinGame/', {
-          'id': guid(),
-          'gameId': $scope.gameState.gameId,
-          'comm': 'JoinGame',
-          'user': user,
-          'timeStamp': '2014-12-02T11:29:29'
+	  'command': 'JoinGame',
+          'gid': $scope.gameState.gid,
+	  'name': 'DasGameIsGood'
+          'user': $scope.user
         }
       );
       thenHandleEvents(joinPostPromise);
       joinPostPromise.then(function () {
         $location.url('/tictactoe');
-        $location.search('gameSide', 'O');
-        $location.search('gameId', $scope.gameState.gameId);
+        $location.search('side', 'O');
+        $location.search('gid', $scope.gameState.gid);
       });
     };
   });
