@@ -9,7 +9,7 @@ describe('Controller: CreateGameCtrl', function () {
 
   beforeEach(function () {
     module(function ($provide) {
-      var guids=['98765', '12345'];
+      var guids=['12345'];
 
       $provide.value('guid', function () {
         return guids.pop();
@@ -52,7 +52,7 @@ describe('Controller: CreateGameCtrl', function () {
     scope.createGame();
     httpBackend.flush();
 
-    expect(location.search().gid).toBe('98765');
+    expect(location.search().gid).toBe('12345');
     expect(location.search().side).toBe('X');
     expect(location.path()).toBe('/tictactoe');
 
