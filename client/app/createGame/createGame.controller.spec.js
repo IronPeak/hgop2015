@@ -31,37 +31,29 @@ describe('Controller: CreateGameCtrl', function () {
 
   it('should post variables from scope for guid, name and userName and process resulting events, and assign me to X', function () {
     httpBackend.expectPOST('/api/createGame/', {
-      id: '12345',
-      gameId: '98765',
-      comm: 'CreateGame',
-      user: {
-        userName: 'Gummi',
-        side: 'X'
-      },
+      command: 'CreateGame',
+      gid: '12345',
       name: 'TheSecondGame',
-      timeStamp: '2014-12-02T11:29:29'
+      user: 'Barus'
     }).respond([
         {
-          id: '12345',
-          gameId: '98765',
+          gid: '12345',
+          name: 'TheSecondGame',
           event: 'GameCreated',
-          user: {
-            userName: 'Gummi',
-            side: 'X'
-          }
+          user: 'Barus'
         }
       ]
     );
 
     scope.name = 'TheSecondGame';
 
-    scope.userName = 'Gummi';
+    scope.user = 'Barus';
 
     scope.createGame();
     httpBackend.flush();
 
-    expect(location.search().gameId).toBe('98765');
-    expect(location.search().gameSide).toBe('X');
+    expect(location.search().gid).toBe('98765');
+    expect(location.search().side).toBe('X');
     expect(location.path()).toBe('/tictactoe');
 
   });
