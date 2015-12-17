@@ -20,42 +20,41 @@ angular.module('tictactoeApp')
           $scope.me = $scope.gameState.joiningUser;
         }
 
-        $scope.joinUrl = 'http://' + $location.host() +( $location.port() ? ':' + $location.port() :'') + '/join/' + $scope.gameState.gameId;
+        $scope.joinUrl = 'http://' + $location.host() +( $location.port() ? ':' + $location.port() :'') + '/join/' + $scope.gameState.gid;
 
       });
     };
 
 
-    var gameId = $location.search().gameId;
+    var gid = $location.search().gid;
 
     function refresh() {
-      thenHandleEvents($http.get('/api/gameHistory/' + gameId));
+      thenHandleEvents($http.get('/api/gameHistory/' + gid));
     }
 
     refresh();
     $interval(refresh, 2000);
 
     function mySide() {
-      return $location.search().gameSide;
+      return $location.search().side;
     }
 
     $scope.myTurn = function () {
       return mySide() === $scope.gameState.nextTurn;
     };
 
-    $scope.placeMove = function (coords) {
+    $scope.makeMove = function (x, y) {
       if(!$scope.myTurn()){
         return;
       }
-      thenHandleEvents($http.post('/api/placeMove/', {
-          gameId: $scope.gameState.gameId,
-          comm: 'PlaceMove',
-          user: $scope.me,
-          timeStamp: '2014-12-02T11:29:29',
-          move: {
-            xy: coords,
-            side: mySide()
-          }
+      thenHandleEvents($http.post('/api/makeMove/', {
+	  command: 'MakeMove',
+          gid: $scope.gameState.gid,
+	  name: $scope.gameState.name,
+	  x: x,
+	  y: y,
+	  side: mySide(),
+          user: $scope.me
         }
       ));
     };

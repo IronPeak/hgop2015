@@ -5,16 +5,6 @@ describe('Controller: JoinGameCtrl', function () {
   beforeEach(module('tictactoeApp'));
 
 
-  beforeEach(function(){
-    module(function ($provide) {
-      var guids=['123141'];
-
-      $provide.value('guid', function () {
-        return guids.pop();
-      });
-    });
-  });
-
   var JoinGameCtrl, scope;
   var httpBackend;
   var location;
@@ -35,7 +25,7 @@ describe('Controller: JoinGameCtrl', function () {
   }));
 
   it('should ask to join game if game id already in scope, and assign me to O', function () {
-    httpBackend.expectGET('/api/gameHistory/123').respond( [{
+    httpBackend.expectGET('/api/gameHistory/12312354').respond( [{
       gid: '12312354',
       name: 'SQL',
       event: 'GameCreated',

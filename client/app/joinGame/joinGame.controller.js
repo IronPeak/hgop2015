@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('tictactoeApp')
-  .controller('JoinGameCtrl', function ($scope, $http, $location, gameState, $state, guid) {
+  .controller('JoinGameCtrl', function ($scope, $http, $location, gameState, $state) {
 
     var thenHandleEvents = function (postPromise) {
       postPromise.then(function (data) {
@@ -17,7 +17,7 @@ angular.module('tictactoeApp')
       var joinPostPromise = $http.post('/api/joinGame/', {
 	  'command': 'JoinGame',
           'gid': $scope.gameState.gid,
-	  'name': 'DasGameIsGood'
+	  'name': $scope.gameState.name,
           'user': $scope.user
         }
       );

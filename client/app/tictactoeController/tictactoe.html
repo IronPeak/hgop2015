@@ -9,12 +9,12 @@
   </div>
 
   <div ng-hide="gameState.winner || gameState.gameDraw">
-    <div  ng-class="{myturn:myTurn()}">Me: <span id="myname">{{ me.userName }}</span> - {{ me.side }}</div>
-    <div  ng-class="{notmyturn:!myTurn()}">Opponent: <span id="opponentname">{{ other.userName }}</span> - {{ other.side }}</div>
+    <div  ng-class="{myturn:myTurn()}">Me: <span id="myname">{{ me.user }}</span> - {{ me.side }}</div>
+    <div  ng-class="{notmyturn:!myTurn()}">Opponent: <span id="opponentname">{{ other.user }}</span> - {{ other.side }}</div>
   </div>
 
   <div ng-class="{'winner':gameState.winner}" ng-show="gameState.winner">
-     {{ gameState.winner.userName }} - {{ gameState.winner.side }} WINS!
+     {{ gameState.winner }} - {{ gameState.winnerside }} WINS!
   </div>
 
   <div class="draw" ng-show="gameState.gameDraw">
@@ -23,7 +23,7 @@
 
   <div id="gameboard" class="board">
     <div class="ticrow" ng-repeat="row in gameState.board" ng-init="x=$index">
-      <div class="ticcell" ng-class="cell + ' x' + x + 'y' + y" ng-repeat="cell in row track by $index" ng-init="y=$index" ng-click="placeMove([x,y])">
+      <div class="ticcell" ng-class="cell + ' x' + x + 'y' + y" ng-repeat="cell in row track by $index" ng-init="y=$index" ng-click="makeMove([x,y])">
         {{cell}}
       </div>
     </div>

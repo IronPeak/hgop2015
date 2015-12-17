@@ -10,25 +10,26 @@ angular.module('tictactoeApp')
         nextTurn: 'X',
         gameDraw: false,
         winner: undefined,
+	winnerside: undefined,
         mutate: function (events) {
           var handlers = {
             'GameCreated': function (event, gameState) {
               gameState.created = true;
               gameState.name = event.name;
-              gameState.gameId = event.gameId;
+              gameState.gid = event.gid;
               gameState.creatingUser = event.user;
             },
             'GameJoined': function (event, gameState) {
               gameState.joiningUser = event.user;
             },
-            'MovePlaced': function (event, gameState) {
-              var x = event.move.xy.x, y = event.move.xy.y;
-              gameState.board[x][y] = event.move.side;
-              gameState.nextTurn = event.move.side === 'X' ? 'O' : 'X';
+            'MoveMade': function (event, gameState) {
+              gameState.board[event.x][event.y] = event.side;
+              gameState.nextTurn = event.side === 'X' ? 'O' : 'X';
             },
-            'GameWon': function (event, gameState) {
+            'GameOver': function (event, gameState) {
               gameState.nextTurn = 'GameOver';
               gameState.winner = event.user;
+	      gameState.winnerside = event.side;
             },
             'GameDraw': function (event, gameState) {
               gameState.nextTurn = 'GameOver';
