@@ -102,6 +102,9 @@ describe('Factory: TictacToeState', function () {
         event: 'GameOver',
         user: 'Gummi',
         name: 'TheFirstGame',
+	x: 1,
+	y: 1,
+	side: 'X'
       }]
     );
 
@@ -115,6 +118,9 @@ describe('Factory: TictacToeState', function () {
         event: 'GameDraw',
         user: 'Gummi',
         name: 'TheFirstGame',
+	x: 1,
+	y: 1,
+	side: 'X'
       }]
     );
 

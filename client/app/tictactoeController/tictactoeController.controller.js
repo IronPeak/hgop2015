@@ -13,9 +13,13 @@ angular.module('tictactoeApp')
       postPromise.then(function(){
 
         if (mySide() === 'X'){
+	  $scope.myside = 'X';
+	  $scope.otherside = 'O';
           $scope.me = $scope.gameState.creatingUser;
           $scope.other = $scope.gameState.joiningUser;
         } else {
+	  $scope.myside = 'O';
+	  $scope.otherside = 'X';
           $scope.other = $scope.gameState.creatingUser;
           $scope.me = $scope.gameState.joiningUser;
         }
