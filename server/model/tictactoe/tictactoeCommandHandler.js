@@ -135,7 +135,8 @@ module.exports = function tictactoeCommandHandler(events) {
                 if (cmd.name === undefined ||
                     cmd.user === undefined ||
                     cmd.gid === undefined ||
-                    cmd.side === undefined) {
+                    cmd.side === undefined ||
+		    cmd.playerO === undefined) {
                     return [{
                         gid: cmd.gid,
                         name: cmd.name,

@@ -158,4 +158,32 @@ describe('MakeMove command:', function() {
 
         JSON.stringify(actualEvents).should.be.exactly(JSON.stringify(then));
     });
+
+    it('Player X can not make move before O joins', function() {
+        given = [{
+            gid: "1235",
+            name: "TheFirstGame",
+            event: "GameCreated",
+            user: "Hrafn"
+        }];
+        when = {
+            command: "MakeMove",
+            gid: "1235",
+            name: "TheFirstGame",
+            x: 1,
+            y: 1,
+            side: 'X',
+            user: "Hrafn"
+        };
+        then = [{
+            gid: "1235",
+            name: "TheFirstGame",
+            event: "IllegalAction",
+            user: "Hrafn"
+        }];
+
+        var actualEvents = tictactoeCommandHandler(given).execute(when);
+
+        JSON.stringify(actualEvents).should.be.exactly(JSON.stringify(then));
+    });
 });
