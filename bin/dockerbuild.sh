@@ -57,14 +57,6 @@ if [ $buildexitcode != 0 ]; then
     exit $buildexitcode
 fi
 
-echo "Pushing docker image"
-docker push ironpeak/tictactoe:$GIT_COMMIT
-pushexitcode=$?
-if [ $pushexitcode != 0 ]; then
-    echo "docker push exited with error code $pushexitcode"
-    exit $pushexitcode
-fi
-
 echo "Done"
 
 exit 0
