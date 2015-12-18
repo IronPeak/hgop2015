@@ -335,3 +335,6 @@ exit $?
 * GitHub Plugins
 * Build Pipeline Plugin
 * Copy Artifact Plugin
+
+## Pipeline
+![An image showing the setup of the build pipeline](pipeline.png "Build Pipeline")
