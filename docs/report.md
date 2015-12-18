@@ -213,7 +213,7 @@ exit 0
 If jenkins-acceptance.sh exits with an error code the stage fails the following stages are not triggered.
 
 ### Stage 3 - capacity
-The third stage of the pipeline is the capacity stage, this is were we run capacity tests on the server that was deployed in the previous stage.
+The third stage of the pipeline is the capacity stage which runs in parallel of the deploy stage, this is were we run capacity tests on the server that was deployed in the previous stage.
 
 Here are the script that are run by our Jenkins CI server in the capacity stage:
 
@@ -251,10 +251,8 @@ exit 0
 
 If you want to know more about the capacity tests, read the next chapter.
 
-If jenkins-capacity.sh exits with an error code the stage fails the following stages are not triggered.
-
-### Stage 4 - deploy
-The final stage of the pipeline is the deploy stage, this is were we deploy the binary into our production environment.
+### Stage 3 - deploy
+The third stage of the pipeline is the deploy stage which runs in parallel of the capacity stage, this is were we deploy the binary into our production environment.
 
 Here are the script that are run by our Jenkins CI server in the deploy stage:
 
@@ -301,4 +299,39 @@ What was wrong with having docker push in the deployment script rather than in t
 How does the "deploy any version, anywhere" build feature work? Hint: Track GIT_COMMIT
 
 * When a revision (change set) is committed to git it is hashed (given a unique identifier), so when we push an image to docker we tag it with the hash from the git commit so that each image has a connection with some git commit.
-* If we want to deploy some git revision we simply take the hash and pull the docker image associated with it. So we are using same binary that was created and tested with that revision. 
+* If we want to deploy some git revision we simply take the hash and pull the docker image associated with it. So we are using same binary that was created and tested with that revision.
+
+# Jenkins
+## Shell scripts
+### Commit Stage
+``` shell
+./bin/jenkins-commit.sh
+exit $?
+```
+[jenkins-commit.sh](../bin/jenkins-commit.sh)
+
+### Acceptance Stage
+``` shell
+./bin/jenkins-acceptance.sh
+exit $?
+```
+[jenkins-acceptance.sh](../bin/jenkins-acceptance.sh)
+
+### Capacity Stage
+``` shell
+./bin/jenkins-capacity.sh
+exit $?
+```
+[jenkins-capacity.sh](../bin/jenkins-capacity.sh)
+
+### Deploy Stage
+``` shell
+./bin/jenkins-deploy.sh
+exit $?
+```
+[jenkins-deploy.sh](../bin/jenkins-deploy.sh)
+
+## Plugins
+* GitHub Plugins
+* Build Pipeline Plugin
+* Copy Artifact Plugin
