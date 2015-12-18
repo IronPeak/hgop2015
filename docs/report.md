@@ -278,9 +278,27 @@ echo "jenkins deploy script finished"
 exit 0
 ```
 
-# Capacity Tests
+# Load Tests
+After a successful acceptance stage, the capacity stage is triggered. At first I created a load test that played a 1000 games to a draw, but that test took 80-120 seconds to run so I reduced the number of games to 100 which resulted in the test taking about 4-5 seconds. The test is set to timeout (fail) if the time it takes to run exceeds 8 seconds.
 
-Created a capacity test that I run on it's own stage in Jenkins, the test plays a 100 games to a draw.
-In most runs of the capacity test, it took 8 seconds to complete a 100 games with the highest taking 12 seconds. As a result my capacity test players a 100 games and succeeds if the test run in less then 12 seconds.
+NodeJS uses asynchronous IO so I had to recreate the fluid api to make sure that each individual test wouldn't be executing commands in parallel, this is something that I should have been doing from the beginning and the previous implementation was a result of my lack of knowledge and experience with NodeJS. In order to make sure that commands for a given test are run serially I made the commands execute recursively so the next command wouldn't be sent until the previous one had finished executing and the request for the game history wouldn't be sent until after every command for the test had finished.
 
-Each of the 100 test game that is played by the capacity test is running in parallel of each other, but the commands of each tests are sent to the server asynchronously so each command has to be finished by the server before the next one is sent. The server will receive commands from the test games and put them on the event queue to be processed one at a time in order of arrival.
+As a result each of the 100 individual games being played in the load test is executing serially but the games are running in parallel of each other, that is Game 1 is not necessary finished before Game 2 is started as it would be if test games were running serially.
+
+# Traceability
+What does this give us? Who would use the capability to track versions and why? Who would use capability to deploy any version and why?
+
+* This gives us the ability to track which revision resulted in a given binary and it's history.
+* The people who are in charge of deploying the system (operations staff) can pick a version they know it is the same one (because revision hashes are unique).
+* Easy to rollback to another version if something goes wrong.
+
+What was wrong with having docker push in the deployment script rather than in the dockerbuild.sh script?
+
+* Pushing a docker image should only be done once (otherwise you are just wasting time), building an images is also an operation that should only be done once so it makes sense to have them together.
+* Deploying a given image is something that is often done more than once.
+* Can result in another image being pushed to docker (if another image has been built in the mean time it could be pushed to docker under the wrong revision number).
+
+How does the "deploy any version, anywhere" build feature work? Hint: Track GIT_COMMIT
+
+* When a revision (change set) is committed to git it is hashed (given a unique identifier), so when we push an image to docker we tag it with the hash from the git commit so that each image has a connection with some git commit.
+* If we want to deploy some git revision we simply take the hash and pull the docker image associated with it. So we are using same binary that was created and tested with that revision. 
