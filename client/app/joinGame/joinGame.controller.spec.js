@@ -4,6 +4,15 @@ describe('Controller: JoinGameCtrl', function() {
     // load the controller's module
     beforeEach(module('tictactoeApp'));
 
+    beforeEach(function() {
+        module(function($provide) {
+            var guids = ['987', '1234'];
+
+            $provide.value('guid', function() {
+                return guids.pop();
+            });
+        });
+    });
 
     var JoinGameCtrl, scope;
     var httpBackend;
