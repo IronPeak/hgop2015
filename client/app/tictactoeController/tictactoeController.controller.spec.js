@@ -69,7 +69,7 @@ describe('Controller: TictactoeControllerCtrl', function () {
     getHistory();
     httpBackend.expectPOST('/api/makeMove/', {
       gid: '87687',
-      name: 'Gimmity',
+      name: 'ThereCanOnlyBeOne',
       command: 'MakeMove',
       user: 'Hrafn',
       x:2, 
@@ -86,7 +86,7 @@ describe('Controller: TictactoeControllerCtrl', function () {
     ]);
 
     scope.gid = '87687';
-    scope.name = 'Gimmity';
+    scope.name = 'ThereCanOnlyBeOne';
 
     location.search('side', 'X');
     scope.me = 'Hrafn';
@@ -105,7 +105,7 @@ describe('Controller: TictactoeControllerCtrl', function () {
     getHistory();
     httpBackend.expectPOST('/api/makeMove/', {
       gid: '87687',
-      name: 'Game44',
+      name: 'ThereCanOnlyBeOne',
       command: 'MakeMove',
       user: 'Hrafn',
       x:2, 
@@ -123,7 +123,7 @@ describe('Controller: TictactoeControllerCtrl', function () {
 
 
     scope.gid = '123';
-    scope.name = 'Game44';
+    scope.name = 'ThereCanOnlyBeOne';
     scope.gameState.nextTurn = 'O';
 
     scope.me = 'Hrafn';
