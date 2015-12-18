@@ -3,10 +3,10 @@ var given = require('../fluid-api/tictactoeFluid').given;
 
 describe('Capacity Tests:', function() {
 
-    it('Should play 100 games in 10 seconds.', function(done) {
+    it('Should play 100 games in 8 seconds.', function(done) {
 
         var gamesToPlay = 100;
-        var x = 12;
+        var x = 8;
 
 	this.timeout(x * 1000);
 
