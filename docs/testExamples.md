@@ -208,4 +208,4 @@ Made an acceptance test for each step of the game to a draw
 
 Capacity Tests
 ==============
-Can play 1000 games to a draw in 6 seconds.
+Can play 1000 games to a draw in 8 seconds.
