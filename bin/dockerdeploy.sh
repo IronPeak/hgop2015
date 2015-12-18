@@ -2,14 +2,6 @@
 
 echo "Running revision $1 on port $2"
 
-echo "Pushing docker image"
-docker push ironpeak/tictactoe:$GIT_COMMIT
-pushexitcode=$?
-if [ $pushexitcode != 0 ]; then
-    echo "docker push exited with error code $pushexitcode"
-    exit $pushexitcode
-fi
-
 echo -e '\nPulling from docker'
 ssh vagrant@192.168.50.4 "docker pull ironpeak/tictactoe:$1"
 pulldocker=$?
