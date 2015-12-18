@@ -53,12 +53,12 @@ describe('Controller: TictactoeControllerCtrl', function () {
   function getHistory() {
     httpBackend.expectGET('/api/gameHistory/123').respond([{
       event: 'GameCreated',
-      name: 'Game Number one',
+      name: 'ThereCanOnlyBeOne',
       gid: '123',
       user: 'Creator'
     }, {
       event: 'GameJoined',
-      name: 'Game Number one',
+      name: 'ThereCanOnlyBeOne',
       gid: '123',
       user: 'Joiner'
     }]);
@@ -69,16 +69,16 @@ describe('Controller: TictactoeControllerCtrl', function () {
     getHistory();
     httpBackend.expectPOST('/api/makeMove/', {
       gid: '87687',
-      name: 'Game Number one',
+      name: 'Gimmity',
       command: 'MakeMove',
-      user: 'Gummi',
+      user: 'Hrafn',
       x:2, 
       y:0,
       side: 'X'
     }).respond([
       {
         event: 'MoveMade',
-        user: 'Gummi',
+        user: 'Hrafn',
         x:2, 
 	y:0,
         side: 'X'
@@ -86,10 +86,10 @@ describe('Controller: TictactoeControllerCtrl', function () {
     ]);
 
     scope.gid = '87687';
-    scope.name = 'TheSecondGame';
+    scope.name = 'Gimmity';
 
     location.search('side', 'X');
-    scope.me = 'Gummi';
+    scope.me = 'Hrafn';
     scope.gameState.gid = '87687';
 
     scope.makeMove(2, 0);
@@ -105,16 +105,16 @@ describe('Controller: TictactoeControllerCtrl', function () {
     getHistory();
     httpBackend.expectPOST('/api/makeMove/', {
       gid: '87687',
-      name: 'Game Number one',
+      name: 'Game44',
       command: 'MakeMove',
-      user: 'Gummi',
+      user: 'Hrafn',
       x:2, 
       y:1,
       side: 'O'
     }).respond([
       {
         event: 'MoveMade',
-        user: 'Gummi',
+        user: 'Hrafn',
         x:2, 
 	y:1,
         side: 'O'
@@ -123,10 +123,10 @@ describe('Controller: TictactoeControllerCtrl', function () {
 
 
     scope.gid = '123';
-    scope.name = 'TheSecondGame';
+    scope.name = 'Game44';
     scope.gameState.nextTurn = 'O';
 
-    scope.me = 'Gummi';
+    scope.me = 'Hrafn';
     scope.gameState.gid = '87687';
 
     scope.makeMove(2, 1);
@@ -136,29 +136,25 @@ describe('Controller: TictactoeControllerCtrl', function () {
 
   });
 
-  /*it('should refresh history once every one second', function () {
+  it('should refresh history once every one second', function () {
     getHistory();
 
     httpBackend.expectGET('/api/gameHistory/123').respond([{
       event: 'GameCreated',
       name: 'Game Number one',
       gid: '123',
-      user: {
-        user: 'Creator'
-      }
+      user: 'Creator'
     }, {
       event: 'GameJoined',
       name: 'Game Number one',
       gid: '123',
-      user: {
-        user: 'Joiner'
-      }
+      user: 'Joiner'
     }]);
 
-    //interval.flush(2001);
+    interval.flush(2001);
 
-    //httpBackend.flush();
-  });*/
+    httpBackend.flush();
+  });
 });
 
 
